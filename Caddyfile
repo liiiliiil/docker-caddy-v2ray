@@ -1,0 +1,9 @@
+{DOMAIN} {
+	tls {MAIL}
+	log /var/log/caddy/access.log
+	errors /var/log/caddy/error.log
+	timeouts none
+	proxy / v2ray:30000 {
+		websocket
+	}
+}

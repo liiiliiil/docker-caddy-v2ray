@@ -1,0 +1,11 @@
+version: '3'
+services:
+  v2ray:
+    restart: always
+    image: v2ray/official
+    container_name: v2ray-client
+    ports:
+      - "21086:1086"
+      - "21186:1186"
+    volumes:
+      - ./client/config.json:/etc/v2ray/config.json

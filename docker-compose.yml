@@ -1,0 +1,26 @@
+version: '3'
+services:
+  v2ray:
+    restart: always
+    image: v2ray/official
+    container_name: v2ray
+    ports:
+      - "30000:30000"
+      - "22:22"
+    volumes:
+      - ./v2ray-log/:/var/log/v2ray/
+      - ./server/config.json:/etc/v2ray/config.json
+  caddy:
+    image: abiosoft/caddy
+    container_name: caddy
+    environment:
+      - ACME_AGREE=true
+    depends_on:
+      - "v2ray"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - ./caddy/:/root/.caddy/
+      - ./caddy-log:/var/log/caddy
