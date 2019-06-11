@@ -1,5 +1,5 @@
 ## 是什么？
-docker, Caddy, v2ray的一键式启动脚本，当前只支持 Ubuntu.
+docker, Caddy, v2ray的一键式启动脚本.
 
 
 ## 怎么使用
