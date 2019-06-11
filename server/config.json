@@ -40,10 +40,6 @@
                 "ota": false
             }
         }
-		//include_socks
-		//include_mtproto
-		//include_in_config
-		//
 	],
 	"outbounds": [
 		{
@@ -65,8 +61,6 @@
 			"settings": {},
 			"tag": "tg-out"
 		}
-		//include_out_config
-		//
 	],
 	"dns": {
 		"server": [
@@ -144,9 +138,6 @@
                     ],
                     "outboundTag": "blocked"
                 }
-			//include_ban_ad
-			//include_rules
-			//
 		]
 	},
 	"transport": {
