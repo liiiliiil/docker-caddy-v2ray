@@ -1,8 +1,8 @@
 {
   "log": {
     "loglevel": "warning",
-    "access": "/Users/MoMo/v2ray/log/access.log",
-    "error": "/Users/MoMo/v2ray/log/error.log"
+    "access": "/var/log/v2ray/log/access.log",
+    "error": "/var/log/v2ray/log/error.log"
   },
   "dns": {
     "servers": [
