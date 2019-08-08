@@ -15,6 +15,7 @@ sed -i -e 's/{DOMAIN}/'"$domain"'/g' Caddyfile
 sed -i -e 's/{MAIL}/'"$mail"'/g' Caddyfile
 
 # start caddy + v2ray
+docker-compose down
 docker-compose up -d
 
 # output uuid
