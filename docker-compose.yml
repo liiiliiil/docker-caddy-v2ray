@@ -8,8 +8,8 @@ services:
       - "30000:30000"
       - "22:22"
     volumes:
-      - ./v2ray-log/:/var/log/v2ray/
-      - ./server/config.json:/etc/v2ray/config.json
+      - ./log/v2ray:/var/log/v2ray/
+      - ./v2ray-config.json:/etc/v2ray/config.json
   caddy:
     image: abiosoft/caddy
     container_name: caddy
@@ -23,4 +23,4 @@ services:
     volumes:
       - ./Caddyfile:/etc/Caddyfile
       - ./caddy/:/root/.caddy/
-      - ./caddy-log:/var/log/caddy
+      - ./log/caddy:/var/log/caddy
