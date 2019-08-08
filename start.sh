@@ -45,11 +45,12 @@ if [ "$init"x = "truex" ] ; then
     # replace domain and mail int Caddyfile
     sed -i -e 's/{DOMAIN}/'"$domain"'/g' Caddyfile
     sed -i -e 's/{MAIL}/'"$mail"'/g' Caddyfile
+
+    # output uuid
+    echo "V2ray will start at domain $domain with new UUID : $new_uuid"
 fi
 
 # start caddy + v2ray
 docker-compose down
 docker-compose up -d
 
-# output uuid
-echo "v2ray started an $domain with new UUID : $new_uuid"
