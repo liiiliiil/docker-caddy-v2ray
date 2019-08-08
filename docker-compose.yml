@@ -6,7 +6,6 @@ services:
     container_name: v2ray
     ports:
       - "30000:30000"
-      - "22:22"
     volumes:
       - ./log/v2ray:/var/log/v2ray/
       - ./v2ray-config.json:/etc/v2ray/config.json
