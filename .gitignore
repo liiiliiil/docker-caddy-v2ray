@@ -4,3 +4,5 @@
 *.log
 log
 caddy
+Caddyfile
+v2ray-config.json
