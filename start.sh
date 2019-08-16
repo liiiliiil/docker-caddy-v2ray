@@ -55,7 +55,9 @@ if [ "$init"x = "truex" ] ; then
     sed -i -e 's/{MAIL}/'"$mail"'/g' Caddyfile
 
     # output uuid
-    echo "V2ray will start at domain $domain with new UUID : $new_uuid"
+    echo "V2ray will start WS+TLS at domain $domain with new UUID : $new_uuid_ws_tls"
+    echo "V2ray will start TCP with new UUID : $new_uuid_tcp"
+    echo "V2ray will start SS with password  : $new_ss_pwd"
 fi
 
 # start caddy + v2ray
