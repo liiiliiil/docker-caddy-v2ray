@@ -1,5 +1,7 @@
 {DOMAIN} {
-	tls {MAIL}
+    tls {
+        dns cloudflare
+    }
 	log /var/log/caddy/access.log
 	errors /var/log/caddy/error.log
 	timeouts none

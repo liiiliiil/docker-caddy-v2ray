@@ -2,7 +2,7 @@
 docker, Caddy, v2ray的一键式启动脚本.
 
 当前配置包含了：
-1. WS + TLS + Caddy : 需要邮箱和域名，Caddy 绑定 80 和 443，v2ray 绑定 30000 端口。
+1. WS + TLS + Caddy : 需要 CloudFlare 信息（邮箱 和 Global API Key）和 **域名**，Caddy 绑定 80 和 443，v2ray 绑定 30000 端口。
 2. TCP : 默认绑定在 37849 端口。
 3. SS : 默认绑定在 22 端口
 
@@ -15,15 +15,13 @@ git clone https://github.com/yuanmomo/docker-caddy-v2ray.git;
 cd v2ray-caddy-docker;
 cp docker-compose.yml.template docker-compose.yml;
 
-## 修改 docker-compose.yml 文件，选择开放指定的端口
+## 修改 docker-compose.yml 文件，
 vim docker-compose.yml;
 
 ## 执行脚本初始化
 start.sh -i;
 ```
-然后按提示输入域名和邮箱。
-
-如果使用了 CloudFlare ，注意在第一次启动的时候，因为需要去申请证书，验证，所以不要开启 CDN。否则 Caddy 会启动失败。
+然后按提示输入域名，邮箱，Global API Key。
 
 如果启动有问题可以用下面两个命令查看日志。
 
@@ -38,3 +36,21 @@ docker logs v2ray
 sh start.sh
 ```
 执行脚本即可。
+
+## CloudFlare 的 API Key
+### 获取 邮箱 和 Key
+1. Login to the Cloudflare account.
+
+2. Go to My Profile.
+
+3. Scroll down to API Keys and locate Global API Key.
+
+4. Click API Key to see your API identifier.
+
+### 原因
+使用了 CloudFlare 后，Caddy 使用 acme 申请的 HTTPS 证书无法续签。
+>Caddy 为了保证证书不过期，会隔一段时间撤销之前的证书申请一个新的证书。签发证书的机构 Let's Encrypt 为了验证你对网站的所有权，会验证一下域名指向的 IP 地址和发出申请的 IP 地址是否相同。而 Cloudflare 的 name server 隐藏了你原先的服务器 IP，所以自然是对不上的。
+
+![caddy-acme-failed](https://img.tupm.net/2019/09/D016C61768F6D9EC35E58400AF0BDC50.jpg)
+
+所以，使用了 Caddy 的 CloudFlare 插件。

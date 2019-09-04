@@ -12,7 +12,12 @@ services:
       - ./log/v2ray:/var/log/v2ray/
       - ./v2ray-config.json:/etc/v2ray/config.json
   caddy:
-    image: abiosoft/caddy
+    abiosoft/caddy
+    container_name: caddy
+    environment:
+      - ACME_AGREE=true
+      - CLOUDFLARE_EMAIL={MAIL}
+      - CLOUDFLARE_API_KEY={CF_API_KEY}
     container_name: caddy
     environment:
       - ACME_AGREE=true

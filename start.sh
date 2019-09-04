@@ -48,11 +48,13 @@ if [ "$init"x = "truex" ] ; then
 
     # read domain and email from user input
     read -p "Domain for caddy : " domain
-    read -p "Email for tls : " mail
+    read -p "Email for CloudFlare : " mail
+    read -p "CloudFlare Global API Key  : " cf_api_key
 
     # replace domain and mail int Caddyfile
     sed -i -e 's/{DOMAIN}/'"$domain"'/g' Caddyfile
-    sed -i -e 's/{MAIL}/'"$mail"'/g' Caddyfile
+    sed -i -e 's/{MAIL}/'"$mail"'/g' docker-compose.yml
+    sed -i -e 's/{CF_API_KEY}/'"$cf_api_key"'/g' docker-compose.yml
 
     # output uuid
     echo "V2ray will start WS+TLS at domain $domain with new UUID : $new_uuid_ws_tls"
