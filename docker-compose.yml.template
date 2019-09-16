@@ -12,23 +12,24 @@ services:
     volumes:
       - ./log/v2ray:/var/log/v2ray/
       - ./v2ray-config.json:/etc/v2ray/config.json
+
   caddy:
-    abiosoft/caddy
-  container_name: caddy
-  environment:
-    - ACME_AGREE=true
-    - CLOUDFLARE_EMAIL={MAIL}
-    - CLOUDFLARE_API_KEY={CF_API_KEY}
-  container_name: caddy
-  network_mode: "host"
-  environment:
-    - ACME_AGREE=true
-  depends_on:
-    - "v2ray"
-  ports:
-    - "127.0.0.1:80:80"
-    - "127.0.0.1:443:443"
-  volumes:
-    - ./Caddyfile:/etc/Caddyfile
-    - ./caddy/:/root/.caddy/
-    - ./log/caddy:/var/log/caddy
+    image: abiosoft/caddy
+    container_name: caddy
+    environment:
+      - ACME_AGREE=true
+      - CLOUDFLARE_EMAIL={MAIL}
+      - CLOUDFLARE_API_KEY={CF_API_KEY}
+    container_name: caddy
+    network_mode: "host"
+    environment:
+      - ACME_AGREE=true
+    depends_on:
+      - "v2ray"
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - ./caddy/:/root/.caddy/
+      - ./log/caddy:/var/log/caddy
