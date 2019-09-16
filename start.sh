@@ -40,6 +40,7 @@ if [ "$init"x = "truex" ] ; then
     # cp files
     cp -fv Caddyfile.template Caddyfile
     cp -fv v2ray-config.json.template v2ray-config.json
+    cp -fv  docker-compose.yml.template docker-compose.yml
 
     # replace v2ray server config
     sed -i -e 's/{UUID_PLACE_HOLDER_TCP}/'"$new_uuid_tcp"'/g' v2ray-config.json
@@ -65,4 +66,6 @@ fi
 # start caddy + v2ray
 docker-compose down
 docker-compose up -d
+
+
 

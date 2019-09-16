@@ -6,7 +6,7 @@ if [[ "$EUID" != 0 ]]; then
     exit;
 fi
 
-install_tools=(vim mosh dnsutils ufw)
+install_tools=(vim mosh dnsutils ufw curl mlocate )
 
 # 脚本说明
 cat << EOF
