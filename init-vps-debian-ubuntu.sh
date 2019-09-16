@@ -105,5 +105,6 @@ if [[ $chcn == y ]]; then
 fi
 
 ## 使用数字显示防火墙的规则
+ufw allow mosh
 ufw status numbered
 
