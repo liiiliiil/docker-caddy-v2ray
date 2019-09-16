@@ -20,10 +20,7 @@ services:
       - ACME_AGREE=true
       - CLOUDFLARE_EMAIL={MAIL}
       - CLOUDFLARE_API_KEY={CF_API_KEY}
-    container_name: caddy
     network_mode: "host"
-    environment:
-      - ACME_AGREE=true
     depends_on:
       - "v2ray"
     ports:
