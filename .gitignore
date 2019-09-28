@@ -7,3 +7,7 @@ caddy
 Caddyfile
 v2ray-config.json
 docker-compose.yml
+read-input.sh
+temp.sh
+test.caddy.file
+

@@ -1,5 +1,23 @@
-## 是什么？
-docker, Caddy, v2ray的一键式启动脚本.
+
+以前部署 ss 的时候，三行命令就可以部署一台 ss server 服务器，超级方便。
+
+现在，喜欢上了 V2ray, V2ray 可以使用 WebSocket + TLS + Web + CDN 的方式，将流量伪装成 HTTPS 流量，同时还能使用 CloudFlare 的免费 CDN，这样就再也不怕自己的 IP 被屏蔽的问题了。
+
+但是配置 V2ray 的 WebSocket + TLS + Web + CDN 步骤太多，而且，稍为不注意还容易出错，所以为了方便搭建，使用 Shell 基于 Docker 做了一个一键部署脚本。
+
+# 准备工作
+1. 购买一个域名，找个 xxxx.com ，购买一个自己的域名.
+2. 因为要使用 CloudFlare 的 CDN，去 https://www.cloudflare.com/ 注册一个账号，然后添加自己域名到 CloudFlare。CloudFlare 会列出两个 NameServer 需要配置到自己购买域名.
+    ![namecheap-set-custom-ns](https://img.tupm.net/2019/09/59F435E69681B8091B72F3EDD75103F8.jpg)
+    参考：[CloudFlare免费CDN加速使用方法](https://zhuanlan.zhihu.com/p/29891330)
+3. 登录 CloudFlare, 选中一个域名,然后找到右下角有一个 <Get your API token>, 点击下面的 <Global API Key>，记录下这个值和 CloudFlare 的登录邮箱 Mail。
+
+# 运行脚本
+
+
+
+
+# 默认配置
 
 当前配置包含了：
 1. WS + TLS + Caddy : 需要 CloudFlare 信息（邮箱 和 Global API Key）和 **域名**，Caddy 绑定 80 和 443，v2ray 绑定 30000 端口。
