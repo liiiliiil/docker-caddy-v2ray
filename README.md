@@ -11,8 +11,9 @@
 2. 安装常用工具: vim mosh dnsutils net-tools mlocate wget
 3. 修改 SSH 端口，禁止密码登陆（可选）
 4. 安装 docker 和 docker-compose
+5. 安装 ufw，配置防火墙端口
 
-**注意:** 如果修改 SSH 端口，记得配置防火墙
+**注意:** 如果有修改 SSH 端口，脚本会自动开放端口，但是最好还是检查一下防火墙。
 
 ## 生成 V2Ray 配置
 V2Ray 可以根据提示生成三种连接方式:
@@ -33,10 +34,8 @@ UUID : 自动生成
 
 
 # 依赖环境
-Debian 9+ / Ubuntu 16.04 + (测试通过，可用)   
-
+Debian 9+ / Ubuntu 16.04 + (测试通过，可用)     
 CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
-
 
 # 准备工作
 如果使用 SS 和 tcp 直接， 只需要购买一个 VPS。

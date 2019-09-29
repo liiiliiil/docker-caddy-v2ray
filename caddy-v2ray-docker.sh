@@ -435,6 +435,10 @@ docker-compose down
 docker-compose up -d
 
 # show iptables
+echo "端口监听 ： "
+netstat -anp | grep -i tcp
+
+echo ""
 echo "防火墙状态 ： "
 ufw status numbered
 
