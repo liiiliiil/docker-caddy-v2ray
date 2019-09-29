@@ -48,16 +48,6 @@ done
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
 
-
-# Debian(Ubuntu) or RHEL(CentOS)
-cmd="apt"
-if [[ $(command -v yum) ]]; then
-	cmd="yum"
-fi
-
-# install curl first
-${cmd} install -y curl
-
 # Init Server
 if [[ "${init_server}"x == "truex" ]] ; then
     # update dns
