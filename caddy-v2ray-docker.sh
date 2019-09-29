@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
 ## 默认安装的工具
-install_tools=(vim mosh dnsutils net-tools mlocate wget)
+
+# Debian(Ubuntu) or RHEL(CentOS)
+cmd="apt"
+if [[ $(command -v yum) ]]; then
+	cmd="yum"
+    install_tools=(vim bind-utils net-tools mlocate wget)
+else
+    install_tools=(vim dnsutils net-tools mlocate wget)
+fi
+
 
 # color
 red='\e[91m'
@@ -51,6 +60,7 @@ done
 # install ufw and config
 if [[ ! $(command -v ufw) ]]; then
     # install ufw
+    yum install -y epel-release
     ${cmd} install -y ufw
     ufw enable
     ufw default deny
