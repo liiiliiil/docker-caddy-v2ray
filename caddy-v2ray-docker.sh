@@ -48,6 +48,7 @@ done
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
 
+# Init Server
 if [[ "${init_server}"x == "truex" ]] ; then
     # update dns
     bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/dns-util.sh)
@@ -62,7 +63,7 @@ if [[ "${init_server}"x == "truex" ]] ; then
     bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/docker/docker-docker-compose.sh)
 fi
 
-# 读取用户输入脚本
+# 载入读取用户输入脚本
 read_input_file="read-input.sh"
 if [[ ! -e ${read_input_file} ]] ; then
     wget -O ${read_input_file} https://raw.githubusercontent.com/yuanmomo/shell-utils/master/system/read-input.sh
