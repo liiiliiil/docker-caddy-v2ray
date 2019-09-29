@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## 默认安装的工具
-install_tools=(vim mosh dnsutils mlocate wget)
+install_tools=(vim mosh dnsutils net-tools mlocate wget)
 
 # color
 red='\e[91m'
@@ -47,6 +47,7 @@ done
 
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
+
 
 # Init Server
 if [[ "${init_server}"x == "truex" ]] ; then
