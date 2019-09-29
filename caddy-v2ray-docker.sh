@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## 默认安装的工具
-install_tools=(vim mosh dnsutils mlocate)
+install_tools=(vim mosh dnsutils mlocate wget)
 
 # color
 red='\e[91m'
@@ -66,7 +66,7 @@ fi
 # 载入读取用户输入脚本
 read_input_file="read-input.sh"
 if [[ ! -e ${read_input_file} ]] ; then
-    wget -O ${read_input_file} https://raw.githubusercontent.com/yuanmomo/shell-utils/master/system/read-input.sh
+    curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/system/read-input.sh > ${read_input_file}
 fi
 chmod +x ${read_input_file} && source ${read_input_file}
 

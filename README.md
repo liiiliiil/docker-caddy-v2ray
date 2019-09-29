@@ -16,6 +16,13 @@
 
 
 
+机器没有 安装 curl，需要手动安装
+apt-get update && apt-get install -y curl
+
+yum update && yum install -y curl
+
+
+curl -s "https://raw.githubusercontent.com/yuanmomo/docker-caddy-v2ray/master/caddy-v2ray-docker.sh" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
 
 # 默认配置
 
