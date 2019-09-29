@@ -2,7 +2,6 @@
 
 ## 默认安装的工具
 install_tools=(vim mosh dnsutils net-tools mlocate wget)
-wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
 
 # color
 red='\e[91m'
@@ -72,6 +71,9 @@ if [[ "${init_server}"x == "truex" ]] ; then
     # install docker and docker-compose
     bash <(curl -s -L https://git.io/JeZ5P)
 fi
+
+# wanip
+wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
 
 # 载入读取用户输入脚本
 read_input_file="read-input.sh"
