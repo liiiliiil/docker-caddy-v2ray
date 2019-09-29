@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## 默认安装的工具
-install_tools=(vim mosh dnsutils curl mlocate)
+install_tools=(vim mosh dnsutils mlocate)
 
 # color
 red='\e[91m'
@@ -47,6 +47,16 @@ done
 
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
+
+
+# Debian(Ubuntu) or RHEL(CentOS)
+cmd="apt"
+if [[ $(command -v yum) ]]; then
+	cmd="yum"
+fi
+
+# install curl first
+${cmd} install -y curl
 
 # Init Server
 if [[ "${init_server}"x == "truex" ]] ; then
