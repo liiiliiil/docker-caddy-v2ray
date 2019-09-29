@@ -393,11 +393,11 @@ EOF
         echo "      Port: ${ss_port}"
         echo "      Password: ${new_ss_pwd}"
         echo "      method: chacha20-ietf-poly1305"
-        echo ""
-        echo ""
-
         # ufw allow port
         ufw allow ${ss_port}/tcp
+
+        echo ""
+        echo ""
     fi
     
     if [[ ${add_tcp} == y ]]; then
@@ -405,11 +405,11 @@ EOF
         echo "      IP: ${wan_ip}"
         echo "      Port: ${tcp_port}"
         echo "      UUID: ${new_uuid_tcp}"
-        echo ""
-        echo ""
-
         # ufw allow port
         ufw allow ${tcp_port}/tcp
+
+        echo ""
+        echo ""
     fi
     
     if [[ ${add_ws_tls_web} == y ]]; then
@@ -418,12 +418,12 @@ EOF
         echo "      Port: 443"
         echo "      IP: ${wan_ip}"
         echo "      UUID: ${new_uuid_ws_tls}"
-        echo ""
-        echo ""
-
         # ufw allow port
         ufw allow 80/tcp
         ufw allow 443/tcp
+
+        echo ""
+        echo ""
     fi
 }
 
@@ -438,7 +438,7 @@ docker-compose up -d
 
 # show iptables
 echo "端口监听 ： "
-netstat -anp | grep -i tcp
+netstat -anp | grep -i tcp | grep LISTEN
 
 echo ""
 echo "防火墙状态 ： "
