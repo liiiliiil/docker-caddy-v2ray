@@ -70,7 +70,7 @@ if [[ "${init_server}"x == "truex" ]] ; then
     bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/ssh-util.sh)
 
     # install docker and docker-compose
-    bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/docker/docker-docker-compose.sh)
+    bash <(curl -s -L https://git.io/JeZ5P)
 fi
 
 # 载入读取用户输入脚本
