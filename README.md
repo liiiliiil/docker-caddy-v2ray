@@ -17,23 +17,24 @@
 ## 生成 V2Ray 配置
 V2Ray 可以根据提示生成三种连接方式:
 
-### 1. shadowsocks(SS) 
-端口 : 默认 39832
-密码 : 随机 24 长度字符串。
-加密方式 : chacha20-ietf-poly1305
+### 1. Shadowsocks(SS) 
+端口 : 默认 39832    
+密码 : 随机 24 长度字符串。     
+加密方式 : chacha20-ietf-poly1305   
 
 ### 2. V2Ray tcp 直连
-端口 : 默认 37849
+端口 : 默认 37849    
 UUID : 自动生成
 
 ### 3. V2Ray WebSocket + TLS + Web + CDN(CloudFlare)，
-域名 : 自行配置
-端口 : Caddy 绑定 80 和 443（不能修改）
+域名 : 自行配置     
+端口 : Caddy 绑定 80 和 443（不能修改）    
 UUID : 自动生成
 
 
 # 依赖环境
-Debian 9+ / Ubuntu 16.04 + (测试通过，可用)
+Debian 9+ / Ubuntu 16.04 + (测试通过，可用)   
+
 CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 
 
@@ -46,7 +47,7 @@ CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 2. 因为要使用 CloudFlare 的 CDN，去 https://www.cloudflare.com/ 注册一个账号，然后添加自己域名到 CloudFlare。CloudFlare 会列出两个 NameServer 需要配置到自己购买域名.
     ![namecheap-set-custom-ns](https://img.tupm.net/2019/09/59F435E69681B8091B72F3EDD75103F8.jpg)
     参考：[CloudFlare免费CDN加速使用方法](https://zhuanlan.zhihu.com/p/29891330)
-3. 登录 CloudFlare, 选中一个域名,然后找到右下角有一个 <Get your API token>, 点击下面的 <Global API Key>，记录下这个值和 CloudFlare 的登录邮箱 Mail。
+3. 登录 CloudFlare, 选中一个域名,然后找到右下角有一个 &lt;Get your API token&gt;, 点击下面的 &lt;Get your API token&gt;，记录下这个值和 CloudFlare 的登录邮箱 Mail。
 
 # 脚本使用
 
@@ -64,7 +65,7 @@ yum update && yum install -y curl
 然后执行命令
 
 ```shell
-curl -s "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
+curl -s -L "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
 ```
 **说明:**
 
