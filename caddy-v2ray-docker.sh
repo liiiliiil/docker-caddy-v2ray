@@ -2,6 +2,7 @@
 
 ## 默认安装的工具
 install_tools=(vim mosh dnsutils net-tools mlocate wget)
+wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
 
 # color
 red='\e[91m'
@@ -47,6 +48,14 @@ done
 
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
+
+# install ufw and config
+if [[ ! $(command -v ufw) ]]; then
+    # install ufw
+    ${cmd} install -y ufw
+    ufw enable
+    ufw default deny
+fi
 
 
 # Init Server
@@ -228,6 +237,7 @@ cat >> ${ss_config}  << EOF
 
         },
 EOF
+
     fi
 
     # v2ray tcp
@@ -340,7 +350,6 @@ EOF
             mail=${read_value}
         fi
 
-
 cat >> ${composeFile} << EOF
     network_mode: "host"
     depends_on:
@@ -376,7 +385,6 @@ EOF
     rm -f ${wsTlsWeb_config}
 
     # echo result
-    wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
     if [[ ${add_ss} == y ]]; then
         echo "SS 启动信息: "
         echo "      IP: ${wan_ip}"
@@ -385,6 +393,9 @@ EOF
         echo "      method: chacha20-ietf-poly1305"
         echo ""
         echo ""
+
+        # ufw allow port
+        ufw allow ${ss_port}/tcp
     fi
     
     if [[ ${add_tcp} == y ]]; then
@@ -394,6 +405,9 @@ EOF
         echo "      UUID: ${new_uuid_tcp}"
         echo ""
         echo ""
+
+        # ufw allow port
+        ufw allow ${tcp_port}/tcp
     fi
     
     if [[ ${add_ws_tls_web} == y ]]; then
@@ -404,8 +418,11 @@ EOF
         echo "      UUID: ${new_uuid_ws_tls}"
         echo ""
         echo ""
-    fi
 
+        # ufw allow port
+        ufw allow 80/tcp
+        ufw allow 443/tcp
+    fi
 }
 
 
@@ -419,6 +436,5 @@ docker-compose up -d
 
 # show iptables
 echo "防火墙状态 ： "
-iptables --list | grep ACCEPT | grep tcp
-
+ufw status numbered
 
