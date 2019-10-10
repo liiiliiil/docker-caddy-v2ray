@@ -51,20 +51,14 @@ CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 # 脚本使用
 
 ## 第一次安装
-先安装 curl，如果机器已经有了，跳过:
+根据不同的系统执行下面的命令:
 
 ```shell
 # Debian / Ubuntu
-apt-get update && apt-get install -y curl
+apt -y update && apt -y upgrade && apt install -y curl && curl -s -L "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
 
 # REHL / CentOS
-yum update && yum install -y curl
-```
-
-然后执行命令
-
-```shell
-curl -s -L "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
+yum -y update && yum install -y curl && curl -s -L "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
 ```
 **说明:**
 
