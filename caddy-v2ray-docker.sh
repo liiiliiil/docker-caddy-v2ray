@@ -6,9 +6,9 @@
 cmd="apt"
 if [[ $(command -v yum) ]]; then
 	cmd="yum"
-    install_tools=(vim bind-utils net-tools mlocate wget)
+    install_tools=(vim bind-utils net-tools mlocate wget bind-utils)
 else
-    install_tools=(vim dnsutils net-tools mlocate wget)
+    install_tools=(vim dnsutils net-tools mlocate wget dnsutils)
 fi
 
 
