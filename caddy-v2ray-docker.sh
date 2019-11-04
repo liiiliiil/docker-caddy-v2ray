@@ -320,7 +320,7 @@ cat >> ${wsTlsWeb_config}  << EOF
             "streamSettings": {
                 "network": "ws",
                 "wsSettings": {
-                    "path": "/"
+                    "path": "/api"
                 }
             }
         },
@@ -370,6 +370,7 @@ cat >> ${composeFile} << EOF
       - ./Caddyfile:/etc/Caddyfile
       - ./caddy/:/root/.caddy/
       - ./log/caddy:/var/log/caddy
+      - ./static:/static
 EOF
 
 
@@ -379,8 +380,11 @@ ${domain} {
 	log /var/log/caddy/access.log
 	errors /var/log/caddy/error.log
 	timeouts none
-	proxy / 127.0.0.1:${wsPort} {
+	root /static
+    index index.html
+	proxy /api 127.0.0.1:${wsPort} {
 		websocket
+		header_upstream -Origin
 	}
 }
 EOF
@@ -441,6 +445,23 @@ EOF
 if [[ "${config_files}"x == "truex" ]] ; then
     generateServerConfigFiles
 fi
+
+# download static directory
+
+# 创建一个与要clone的仓库同名或不同命的目录
+# mkdir static && cd static
+#初始化
+git init
+# 增加远端的仓库地址
+git remote add origin  https://github.com/yuanmomo/docker-caddy-v2ray.git
+# 设置Sparse Checkout 为true
+git config core.sparsecheckout true
+# 将要部分clone的目录相对根目录的路径写入配置文件
+echo "static" >> .git/info/sparse-checkout
+#pull下来代码
+#git pull origin master
+#只保留最新的文件而不要历史版本的文件, 浅克隆
+git pull --depth 1 origin master
 
 # start caddy + v2ray
 docker-compose down
