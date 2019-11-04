@@ -11,4 +11,6 @@ read-input.sh
 temp.sh
 test.caddy.file
 backup
+read-input.sh
+v2ray-server-config.json
 
