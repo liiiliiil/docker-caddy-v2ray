@@ -6,9 +6,9 @@
 cmd="apt"
 if [[ $(command -v yum) ]]; then
 	cmd="yum"
-    install_tools=(vim bind-utils net-tools mlocate wget)
+    install_tools=(vim bind-utils net-tools mlocate wget git)
 else
-    install_tools=(vim dnsutils net-tools mlocate wget)
+    install_tools=(vim dnsutils net-tools mlocate wget git)
 fi
 
 
@@ -149,13 +149,19 @@ cat > ${v2ray_server_config} << EOF
 
 EOF
     # 插入 shadowsocks inbound
-    cat ${ss_config} >> ${v2ray_server_config}
+    if [[ -e ${ss_config} ]] ; then
+        cat ${ss_config} >> ${v2ray_server_config}
+	fi
 
     # 插入 v2ray tcp inbound
-    cat ${tcp_config} >> ${v2ray_server_config}
+    if [[ -e ${ss_config} ]] ; then
+        cat ${tcp_config} >> ${v2ray_server_config}
+	fi
 
     # 插入 v2ray WebSocket + TLS + Web inbound
-    cat ${wsTlsWeb_config} >> ${v2ray_server_config}
+    if [[ -e ${ss_config} ]] ; then
+        cat ${wsTlsWeb_config} >> ${v2ray_server_config}
+	fi
 
 cat >> ${v2ray_server_config} << EOF
         {
