@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-## 默认安装的工具
-
-# Debian(Ubuntu) or RHEL(CentOS)
-cmd="apt"
-if [[ $(command -v yum) ]]; then
-	cmd="yum"
-    install_tools=(vim bind-utils net-tools mlocate wget git)
-else
-    install_tools=(vim dnsutils net-tools mlocate wget git)
-fi
-
-
 # color
 red='\e[91m'
 yellow='\e[93m'
@@ -34,7 +22,7 @@ USAGE
     exit 1
 }
 
-while getopts icrh OPT;do
+while getopts :ich OPT;do
     case ${OPT} in
         i)
             init_server=true
@@ -57,29 +45,87 @@ done
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
 
-# install ufw and config
-if [[ ! $(command -v ufw) ]]; then
-    # install ufw
-    yum install -y epel-release
-    ${cmd} install -y ufw
-    ufw enable
-    ufw default deny
+# Debian(Ubuntu) or RHEL(CentOS)
+cmd="apt"
+# GNU/Linux操作系统
+if [[ $(command -v yum) ]]; then
+    # RHEL(CentOS)
+	cmd="yum"
+    install_tools=(vim bind-utils net-tools mlocate wget git ufw)
+else
+    # Debian(Ubuntu)
+    install_tools=(vim dnsutils net-tools mlocate wget git ufw)
 fi
+
 
 
 # Init Server
 if [[ "${init_server}"x == "truex" ]] ; then
-    # update dns
+    # update dns before update and install
     bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/dns-util.sh)
 
+    # both CentOS and Debian need to update
     # install common tools/utils
-    curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/system/install-apps.sh | bash -s  ${install_tools[*]}
+    ${cmd} -y update
+    if [[ ${cmd} == "apt" ]]; then
+        # Debian need to upgrade
+        ${cmd} -y upgrade
+    else
+        rpm -qa | grep -qw epel-release || yum install -y epel-release
+    fi
+
+    echo "$cmd install -y ${install_tools[*]}"
+    ${cmd} install -y ${install_tools[*]}
 
     # update ssh port and set only rsa login only
     bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/ssh-util.sh)
 
     # install docker and docker-compose
     bash <(curl -s -L https://git.io/JeZ5P)
+fi
+
+function enable_ufw(){
+    ufw --force enable
+    ufw default deny
+}
+
+# allow port and protocol
+function port_allow_ufw(){
+    # port
+    port=$1
+    # tcp or udp
+    type=$2
+
+    if [[ ! ${type} ]]; then
+        type="tcp"
+    fi
+
+    echo "Allow port ${port}/${type} in...."
+
+    exist_tcp_and_udp=$(ufw status verbose |awk -F ' ' '{print $1}' |egrep -w "^${port}$")
+    if [[ ${exist_tcp_and_udp} ]]; then
+        # already exists
+        exist_rule=`ufw status verbose | egrep -w "^${port}"`
+        echo "Rule already exist : ${exist_rule} "
+        return
+    fi
+
+    exist_type=$(ufw status verbose |awk -F ' ' '{print $1}' |egrep -w "^${port}/${type}$")
+    if [[ ${exist_type} ]]; then
+        # already exists
+        exist_rule=`ufw status verbose | egrep -w "^${port}/${type}"`
+        echo "Rule already exist : ${exist_rule} "
+        return
+    fi
+
+    ufw allow ${port}/${type}
+}
+
+# install ufw and config
+if [[ ! $(command -v ufw) ]]; then
+    # install ufw
+    ${cmd} install -y ufw
+    enable_ufw
 fi
 
 # wanip
@@ -414,7 +460,7 @@ EOF
         echo "      Password: ${new_ss_pwd}"
         echo "      method: chacha20-ietf-poly1305"
         # ufw allow port
-        ufw allow ${ss_port}/tcp
+        port_allow_ufw ${ss_port} "tcp"
 
         echo ""
         echo ""
@@ -426,7 +472,7 @@ EOF
         echo "      Port: ${tcp_port}"
         echo "      UUID: ${new_uuid_tcp}"
         # ufw allow port
-        ufw allow ${tcp_port}/tcp
+        port_allow_ufw ${tcp_port} "tcp"
 
         echo ""
         echo ""
@@ -439,8 +485,8 @@ EOF
         echo "      IP: ${wan_ip}"
         echo "      UUID: ${new_uuid_ws_tls}"
         # ufw allow port
-        ufw allow 80/tcp
-        ufw allow 443/tcp
+        port_allow_ufw 80 "tcp"
+        port_allow_ufw 443 "tcp"
 
         echo ""
         echo ""
@@ -479,5 +525,5 @@ netstat -anp | grep -i tcp | grep LISTEN
 
 echo ""
 echo "防火墙状态 ： "
-ufw status numbered
+ufw status verbose
 
