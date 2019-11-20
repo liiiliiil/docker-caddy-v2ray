@@ -6,9 +6,6 @@ log
 
 caddy
 
-template/Caddyfile
-template/v2ray-server-config.json
-template/docker-compose.yml
 config.sh
 
 backup
