@@ -18,7 +18,9 @@ caddyFile="Caddyfile"
 ###### 加载工具脚本
 function source_file() {
     read_input_file=$1
-    chmod +x ${read_input_file} && source ${read_input_file}
+    if [[ -e ${read_input_file}  ]] ; then
+        chmod +x ${read_input_file} && source ${read_input_file}
+    fi
 }
 source_file ${current_dir}/read-input.sh
 source_file ${current_dir}/ufw-util.sh
