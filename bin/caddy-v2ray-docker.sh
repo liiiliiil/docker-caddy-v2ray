@@ -9,10 +9,10 @@ root_dir="$(cd "$(dirname "$0")";pwd)/../"
 template_dir="${root_dir}/template"
 back_up_dir="${root_dir}/backup"
 
-config_sh_file="config.sh"
-v2ray_server_config_file="v2ray-server-config.json"
-compose_file="docker-compose.yml"
-caddy_file="Caddyfile"
+config_sh_file="${root_dir}/config.sh"
+v2ray_server_config_file="${root_dir}/v2ray-server-config.json"
+compose_file="${root_dir}/docker-compose.yml"
+caddy_file="${root_dir}/Caddyfile"
 
 ###### 判断当前用户
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
@@ -41,7 +41,7 @@ function printConfig(){
     "
 }
 function writeToConfigSh(){
-    cat >> ${root_dir}/${config_sh_file} << EOF
+    cat >> ${config_sh_file} << EOF
 #!/usr/bin/env bash
 
 V2RAY_TCP_PORT=${V2RAY_TCP_PORT}
@@ -61,8 +61,8 @@ EOF
 source_file ${root_dir}/bin/read-input.sh
 source_file ${root_dir}/bin/ufw-util.sh
 
-if [[ -e ${root_dir}/config.sh  ]] ; then
-    source_file ${root_dir}/config.sh
+if [[ -e ${config_sh_file}  ]] ; then
+    source_file ${config_sh_file}
     printConfig "当前配置文件中的变量"
 fi
 
@@ -121,9 +121,17 @@ OPT_TYPE=${read_value}
 echo "当前选择: [${OPT_TYPE}] "
 echo ""
 
-copyFile ${v2ray_server_config_file} ${template_dir}/${v2ray_server_config_file} ${root_dir}/${v2ray_server_config_file}
-copyFile ${compose_file} ${template_dir}/${compose_file} ${root_dir}/${compose_file}
-copyFile ${caddy_file} ${template_dir}/${caddy_file} ${root_dir}/${caddy_file}
+function copyFile(){
+    source=$1
+    target=$2
+
+    echo "copy ${source} 模版文件...."
+    cp -fv ${source} ${target}
+}
+
+copyFile ${template_dir}/v2ray-server-config.json  ${v2ray_server_config_file}
+copyFile ${template_dir}/docker-compose.yml ${compose_file}
+copyFile ${template_dir}/Caddyfile ${caddy_file}
 
 case ${OPT_TYPE} in
  1)
@@ -196,7 +204,7 @@ writeToConfigSh
 function replaceFile(){
     file=$1
 
-    content=`cat ${root_dir}/${file} | envsubst`
+    content=`cat ${file} | envsubst`
     cat <<< "$content" > ${file}
 }
 printConfig "替换配置文件中的变量"

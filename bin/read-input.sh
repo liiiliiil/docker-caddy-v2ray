@@ -113,12 +113,4 @@ function readCloudFlareInput(){
     "
 }
 
-function copyFile(){
-    file=$1
-    source=$2
-    target=$3
-
-    echo "copy ${file} 模版文件...."
-    cp -fv ${source} ${target}
-}
 
