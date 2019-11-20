@@ -67,7 +67,7 @@ if [[ -e ${root_dir}/config.sh  ]] ; then
 fi
 
 ##### 备份当前配置
-bash -vx ${root_dir}/bin/backup-to-config.sh
+source_file ${root_dir}/bin/backup-to-config.sh
 
 ###### 判断系统类型
 cmd="apt"

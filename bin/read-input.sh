@@ -89,9 +89,7 @@ function readMail(){
         eval "${mail_config}=${read_value}"
     fi
 
-    echo "邮箱地址 :
-        TLS_MAIL : [$(eval echo \${${mail_config}})]
-    "
+    echo "当前输入邮箱地址 : [$(eval echo \${${mail_config}})] "
 }
 
 function readMailInput(){
