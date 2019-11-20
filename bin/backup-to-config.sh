@@ -3,7 +3,7 @@
 # backup current config
 current_dir=$(cd "$(dirname "$0")";pwd)
 
-config_key="config.key"
+config_key="config.sh"
 back_up="backup"
 v2ray_config_file="v2ray-server-config.json"
 docker_compose_file="docker-compose.yml"
@@ -41,6 +41,8 @@ if [[ -e "${current_dir}/../${caddy_file}" ]] ; then
 fi
 
 cat >> ${current_dir}/../${config_key} << EOF
+#!/usr/bin/env bash
+
 V2RAY_TCP_PORT=${V2RAY_TCP_PORT}
 V2RAY_TCP_UUID=${V2RAY_TCP_UUID}
 
