@@ -6,11 +6,10 @@ log
 
 caddy
 
-config.sh
-./Caddyfile
-./docker-compose.yml
-./read-input.sh
-./v2ray-server-config.json
+/config.sh
+/Caddyfile
+/docker-compose.yml
+/v2ray-server-config.json
 
 backup
 
