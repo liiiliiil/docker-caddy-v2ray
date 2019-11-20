@@ -38,8 +38,12 @@ function readPortAndUUID(){
     echo "读取 ${current_type_name} 的配置信息......."
     echo ""
 
-    readInput "请输入 V2ray ${current_type_name} 的端口 (可用范围为0-65535, 默认 ${default_port}): [Enter] ? " "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-5]{2}[0-3][0-5])$" "${default_port}"
-    eval "${port_config}=${read_value}"
+    if [[ $(eval echo \${${port_config}}) != "" ]] ; then
+        echo "${current_type_name} 当前已经配置 Port [$(eval echo \${${port_config}})], 继续使用 ！！！！"
+    else
+        readInput "请输入 V2ray ${current_type_name} 的端口 (可用范围为0-65535, 默认 ${default_port}): [Enter] ? " "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-5]{2}[0-3][0-5])$" "${default_port}"
+        eval "${port_config}=${read_value}"
+    fi
 
     if [[ $(eval echo \${${uuid_config}}) != "" ]] ; then
         echo "${current_type_name} 当前存在 UUID [$(eval echo \${${uuid_config}})], 继续使用 ！！！！"

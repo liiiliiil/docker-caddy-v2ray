@@ -139,25 +139,28 @@ case ${OPT_TYPE} in
 esac
 
 export V2RAY_TCP_PORT
-#echo "$V2RAY_TCP_PORT"
 export V2RAY_TCP_UUID
-#echo "$V2RAY_TCP_UUID"
 
 export V2RAY_WS_PORT
-#echo "$V2RAY_WS_PORT"
 export V2RAY_WS_UUID
-#echo "$V2RAY_WS_UUID"
 export DOMAIN
-#echo "$DOMAIN"
 export MAIL
-#echo "$MAIL"
 
 export CF_MAIL
-#echo "$CF_MAIL"
 export CF_API_KEY
-#echo "$CF_API_KEY"
 export CADDY_TLS_CONFIG
 
+
+echo "替换配置文件中的变量:
+V2RAY_TCP_PORT = ${V2RAY_TCP_PORT}
+V2RAY_TCP_UUID = ${V2RAY_TCP_UUID}
+V2RAY_WS_PORT = ${V2RAY_WS_PORT}
+V2RAY_WS_UUID = ${V2RAY_WS_UUID}
+DOMAIN = ${DOMAIN}
+MAIL = ${MAIL}
+CF_MAIL = ${CF_MAIL}
+CF_API_KEY = ${CF_API_KEY}
+"
 
 function replaceFile(){
     file=$1
@@ -170,6 +173,9 @@ replaceFile ${v2ray_server_config}
 replaceFile ${composeFile}
 replaceFile ${caddyFile}
 
+echo
+
+echo "启动容器。。。。。"
 # start caddy + v2ray
 docker-compose down
 docker-compose up -d
