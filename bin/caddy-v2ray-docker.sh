@@ -21,7 +21,7 @@ caddy_file="${root_dir}/Caddyfile"
 function source_file() {
     read_input_file=$1
     if [[ -e ${read_input_file}  ]] ; then
-        chmod +x ${read_input_file} && source ${read_input_file}
+        source ${read_input_file}
     fi
 }
 function printConfig(){

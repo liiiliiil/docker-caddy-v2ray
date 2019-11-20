@@ -13,7 +13,7 @@ cat << EOF
 EOF
 
 # 读取用户输入脚本
-chmod +x ${read_input_file} && source ${read_input_file}
+source ${read_input_file}
 
 # change ssh config
 readInput "是否需要修改 SSH 配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
