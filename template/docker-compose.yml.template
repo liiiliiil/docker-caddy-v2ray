@@ -1,0 +1,25 @@
+version: '3'
+services:
+  v2ray:
+    restart: always
+    image: v2ray/official
+    container_name: v2ray
+    network_mode: "host"
+    volumes:
+      - ./log/v2ray:/var/log/v2ray/
+      - ./v2ray-server-config.json:/etc/v2ray/config.json
+  caddy:
+    image: abiosoft/caddy
+    container_name: caddy
+    environment:
+      - ACME_AGREE=true
+      - CLOUDFLARE_EMAIL={CF_MAIL}
+      - CLOUDFLARE_API_KEY={CF_API_KEY}
+    network_mode: "host"
+    depends_on:
+      - "v2ray"
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - ./caddy/:/root/.caddy/
+      - ./log/caddy:/var/log/caddy
+      - ./static:/static

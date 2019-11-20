@@ -55,14 +55,22 @@ CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 
 ```shell
 # Debian / Ubuntu
-apt -y update && apt -y upgrade && apt install -y curl && curl -s -L "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
+sed -i 's/^nameserver.*$//g' /etc/resolv.conf && echo "nameserver 8.8.8.8\nnameserver 8.8.4.4\n" >> /etc/resolv.conf \
+    && sed -i '/^$/d' /etc/resolv.conf \
+    && apt -y update && apt -y upgrade && apt install -y curl git vim dnsutils net-tools mlocate wget ufw \
+    && git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
+    && cd docker-caddy-v2ray && bash caddy-v2ray-docker.sh -i -c
 
 # REHL / CentOS
-yum -y update && yum install -y curl && curl -s -L "https://git.io/JeZQj" > caddy-v2ray-docker.sh && bash caddy-v2ray-docker.sh -i -c
+sed -i 's/^nameserver.*$//g' /etc/resolv.conf && echo "nameserver 8.8.8.8\nnameserver 8.8.4.4\n" >> /etc/resolv.conf \
+    && sed -i '/^$/d' /etc/resolv.conf \
+    && yum -y update && yum install -y epel-release && yum install -y curl git vim bind-utils net-tools mlocate wget ufw \
+    && git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
+    && cd docker-caddy-v2ray && bash caddy-v2ray-docker.sh -i -c
 ```
 **说明:**
 
-命令会自动下载一个脚本保存为 caddy-v2ray-docker.sh. 脚本接受两个参数:
+命令会自动安装 git 和curl，clone 仓库到本地，运行 caddy-v2ray-docker.sh 脚本。脚本接受两个参数:
 
 | 参数         | 是否必须| 是否有值           | 说明     |
 | ------------- |:--------:|:--------:|:-----|
@@ -70,6 +78,11 @@ yum -y update && yum install -y curl && curl -s -L "https://git.io/JeZQj" > cadd
 | -c | 否 | 否| 是否重新配置 V2Ray       |
 
 如果不加参数表示不执行相应的操作。
+
+## 更新
+```shell
+git pull && bash caddy-v2ray-docker.sh
+```
 
 ## 重启
 不加参数运行脚本即可

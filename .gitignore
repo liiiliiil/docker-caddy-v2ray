@@ -1,16 +1,15 @@
 .idea
 .vscode/
 .DS_Store
-*.log
 log
+*.log
+
 caddy
+
 Caddyfile
-v2ray-config.json
-docker-compose.yml
-read-input.sh
-temp.sh
-test.caddy.file
-backup
-read-input.sh
 v2ray-server-config.json
+docker-compose.yml
+config.key
+
+backup
 

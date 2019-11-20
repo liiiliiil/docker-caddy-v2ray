@@ -1,0 +1,21 @@
+    {
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      },
+      "port": {V2RAY_TCP_PORT},
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "{V2RAY_TCP_UUID}",
+            "level": 1,
+            "alterId": 32
+          }
+        ]
+      },
+      "tag": "tcp"
+    }

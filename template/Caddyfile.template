@@ -1,0 +1,18 @@
+{DOMAIN} {
+	root /static
+    index index.html
+	tls {
+	    dns cloudflare
+	}
+	errors /var/log/caddy/error.log
+	timeouts none
+	log / /var/log/caddy/access.log "{>X-Forwarded-For} -> {remote} - {user} [{when}] \"{method} {uri} {proto}\" {status} {size}" {
+        rotate_size 100
+        rotate_age  90
+        rotate_keep 90
+    }
+	proxy /api 127.0.0.1:{V2RAY_WS_PORT} {
+		websocket
+		header_upstream -Origin
+	}
+}

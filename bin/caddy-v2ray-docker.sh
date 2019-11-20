@@ -1,86 +1,37 @@
 #!/usr/bin/env bash
 
+# 载入读取用户输入脚本
+read_input_file="read-input.sh"
+chmod +x ./bin/${read_input_file} && source ./bin/${read_input_file}
+
 # color
 red='\e[91m'
 yellow='\e[93m'
 none='\e[0m'
 
-####### 参数解析 #######
-cmdname=$(basename $0)
-init_server=false
-config_files=false
-
-# usage help doc.
-usage() {
-    cat << USAGE  >&2
-Usage:
-    ${cmdname} [-i] [-c]
-    -i          Init server, update DNS, install common utils ${install_tools[*]}, update SSH, install docker and docker-compose.
-    -c          Generate  V2ray, Caddy, docker-compose config files.
-    -h          Show help info.
-USAGE
-    exit 1
-}
-
-while getopts :ich OPT;do
-    case ${OPT} in
-        i)
-            init_server=true
-            ;;
-        c)
-            config_files=true
-            ;;
-        h)
-            usage
-            exit 3
-            ;;
-        \?)
-            usage
-            exit 4
-            ;;
-    esac
-done
-
-
 # Root User
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
 
-# Debian(Ubuntu) or RHEL(CentOS)
+# backup current configs
+bash ./bin/backup-to-config.sh
+
 cmd="apt"
 # GNU/Linux操作系统
 if [[ $(command -v yum) ]]; then
     # RHEL(CentOS)
 	cmd="yum"
-    install_tools=(vim bind-utils net-tools mlocate wget git ufw)
-else
-    # Debian(Ubuntu)
-    install_tools=(vim dnsutils net-tools mlocate wget git ufw)
 fi
 
-# Init Server
-if [[ "${init_server}"x == "truex" ]] ; then
-    # update dns before update and install
-    bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/dns-util.sh)
-
-    # both CentOS and Debian need to update
-    # install common tools/utils
-    ${cmd} -y update
-    if [[ ${cmd} == "apt" ]]; then
-        # Debian need to upgrade
-        ${cmd} -y upgrade
-    else
-        rpm -qa | grep -qw epel-release | yum install -y epel-release
-    fi
-
-    echo "$cmd install -y ${install_tools[*]}"
-    ${cmd} install -y ${install_tools[*]}
-
-    # update ssh port and set only rsa login only
-    bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/ssh-util.sh)
-
-    # install docker and docker-compose
-    bash <(curl -s -L https://git.io/JeZ5P)
+ssh_port=`ss -tulpn | grep -i sshd | awk -F ' ' '{print $5}'  | grep "\*"|awk -F ':' '{print $2}'`
+if [[ "${ssh_port}"x == "22"x ]] ; then
+    bash ssh-util.sh
 fi
+
+# update ssh port and set only rsa login only
+bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/ssh-util.sh)
+
+# install docker and docker-compose
+bash <(curl -s -L https://git.io/JeZ5P)
 
 function enable_ufw(){
     ufw --force enable
@@ -129,12 +80,6 @@ fi
 # wanip
 wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
 
-# 载入读取用户输入脚本
-read_input_file="read-input.sh"
-if [[ ! -e ${read_input_file} ]] ; then
-    curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/system/read-input.sh > ${read_input_file}
-fi
-chmod +x ${read_input_file} && source ${read_input_file}
 
 # backup file if file exists
 function backupFile(){
