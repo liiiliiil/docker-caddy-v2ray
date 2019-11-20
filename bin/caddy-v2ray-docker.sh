@@ -91,10 +91,10 @@ case ${OPT_TYPE} in
     readTcpInput
 
     # delete tls + ws config
-    sed -i -n '/^.*V2RAY_TLS_WS_CONFIG_START.*$/,/^.*V2RAY_TLS_WS_CONFIG_END.*$/d' ${v2ray_server_config}
+    sed -i '/^.*V2RAY_TLS_WS_CONFIG_START.*$/,/^.*V2RAY_TLS_WS_CONFIG_END.*$/d' ${v2ray_server_config}
 
     # delete caddy in docker-compose file
-    sed -i -n '/^ *caddy:$/,$d' ${composeFile}
+    sed -i '/^ *caddy:$/,$d' ${composeFile}
 
     ;;
  2)
