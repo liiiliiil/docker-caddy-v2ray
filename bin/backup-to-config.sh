@@ -8,9 +8,9 @@ fi
 
 if [[ -e "${config_sh_file}" ]] ; then
     ## TODO. 判断最新的两个文件的 MD5
-    backup_config_key="${config_sh_file}.`date "+%Y%m%d-%H%M%S"`"
-    echo "已经存在 ${config_sh_file} 文件，备份到 ${back_up_dir} 目录中: mv ${config_sh_file} to ${back_up_dir}/${backup_config_key}"
-    cp -vf ${config_sh_file} ${root_dir}/${back_up_dir}/${backup_config_key}
+    backup_config_key="${back_up_dir}/config.sh.`date "+%Y%m%d-%H%M%S"`"
+    echo "已经存在 ${config_sh_file} 文件，备份到 ${back_up_dir} 目录中: cp ${config_sh_file} to ${backup_config_key}"
+    cp -vf ${config_sh_file} ${backup_config_key}
     
      # 如果文件存在，备份一份，然后直接返回
     return 
