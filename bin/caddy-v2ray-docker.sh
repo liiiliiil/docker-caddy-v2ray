@@ -27,7 +27,7 @@ source_file ${current_dir}/ufw-util.sh
 source_file ${current_dir}/../config.sh
 
 ##### 备份当前配置
-bash ${current_dir}/bin/backup-to-config.sh
+bash ${current_dir}/backup-to-config.sh
 
 ###### 判断系统类型
 cmd="apt"

@@ -19,7 +19,7 @@ source_file ${current_dir}/read-input.sh
 source_file ${current_dir}/ufw-util.sh
 
 # backup current configs
-bash ${current_dir}/bin/backup-to-config.sh
+bash ${current_dir}/backup-to-config.sh
 
 cmd="apt"
 # GNU/Linux操作系统
