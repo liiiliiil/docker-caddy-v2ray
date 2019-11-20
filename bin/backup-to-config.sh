@@ -21,7 +21,8 @@ if [[ -e "${current_dir}/../${config_key}" ]] ; then
     mv -vf ${current_dir}/../${config_key} ${current_dir}/../${back_up}/${backup_config_key}
 fi
 
-echo "\n生成当前的配置到 ${config_key} 文件"
+echo ""
+echo "生成当前的配置到 ${config_key} 文件"
 
 if [[ -e "${current_dir}/../${v2ray_config_file}" ]] ; then
     V2RAY_TCP_PORT=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_config_file} | grep "port" | tr -d -c "[0-9]"`
