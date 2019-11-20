@@ -22,9 +22,30 @@ function source_file() {
         chmod +x ${read_input_file} && source ${read_input_file}
     fi
 }
+function printConfig(){
+    tip=$1
+    echo "${tip}:
+    V2RAY_TCP_PORT = ${V2RAY_TCP_PORT}
+    V2RAY_TCP_UUID = ${V2RAY_TCP_UUID}
+
+    V2RAY_WS_PORT = ${V2RAY_WS_PORT}
+    V2RAY_WS_UUID = ${V2RAY_WS_UUID}
+
+    DOMAIN = ${DOMAIN}
+    MAIL = ${MAIL}
+
+    CF_MAIL = ${CF_MAIL}
+    CF_API_KEY = ${CF_API_KEY}
+    "
+
+}
 source_file ${current_dir}/read-input.sh
 source_file ${current_dir}/ufw-util.sh
-source_file ${current_dir}/../config.sh
+
+if [[ -e ${root_dir}/config.sh  ]] ; then
+    source_file ${current_dir}/../config.sh
+    printConfig "当前配置文件中的变量"
+fi
 
 ##### 备份当前配置
 bash ${current_dir}/backup-to-config.sh
@@ -151,16 +172,7 @@ export CF_API_KEY
 export CADDY_TLS_CONFIG
 
 
-echo "替换配置文件中的变量:
-V2RAY_TCP_PORT = ${V2RAY_TCP_PORT}
-V2RAY_TCP_UUID = ${V2RAY_TCP_UUID}
-V2RAY_WS_PORT = ${V2RAY_WS_PORT}
-V2RAY_WS_UUID = ${V2RAY_WS_UUID}
-DOMAIN = ${DOMAIN}
-MAIL = ${MAIL}
-CF_MAIL = ${CF_MAIL}
-CF_API_KEY = ${CF_API_KEY}
-"
+printConfig "替换配置文件中的变量"
 
 function replaceFile(){
     file=$1
