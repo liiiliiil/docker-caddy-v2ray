@@ -41,7 +41,7 @@ fi
 key_word="#INITIALIZED by MoMo"
 if [[ ! $(grep "${key_word}"  /etc/ssh/sshd_config) ]] ; then
     # update ssh port and set only rsa login only
-    bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/ssh-util.sh)
+    bash ${current_dir}/ssh-util.sh
     echo "${key_word}">> /etc/ssh/sshd_config
 fi
 ###### 安装 docker && docker-compose
@@ -154,7 +154,6 @@ export CADDY_TLS_CONFIG
 
 content=$(cat ${root_dir}/${v2ray_server_config} | envsubst)
 echo ${content} > ${v2ray_server_config}
-
 
 content=$(cat ${root_dir}/${composeFile} | envsubst)
 echo ${content} > ${composeFile}
