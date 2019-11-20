@@ -57,8 +57,6 @@ else
     install_tools=(vim dnsutils net-tools mlocate wget git ufw)
 fi
 
-
-
 # Init Server
 if [[ "${init_server}"x == "truex" ]] ; then
     # update dns before update and install
@@ -71,7 +69,7 @@ if [[ "${init_server}"x == "truex" ]] ; then
         # Debian need to upgrade
         ${cmd} -y upgrade
     else
-        rpm -qa | grep -qw epel-release || yum install -y epel-release
+        rpm -qa | grep -qw epel-release | yum install -y epel-release
     fi
 
     echo "$cmd install -y ${install_tools[*]}"
@@ -264,7 +262,7 @@ version: '3'
 services:
   v2ray:
     restart: always
-    image: v2ray/official
+    image: v2fly/v2fly-core:latest
     container_name: v2ray
     network_mode: "host"
     volumes:
@@ -429,7 +427,11 @@ EOF
 cat > ${caddyFile} << EOF
 ${domain} {
 	tls ${caddy_tls_config}
-	log /var/log/caddy/access.log
+	log / /var/log/caddy/access.log "{>X-Forwarded-For} -> {remote} - {user} [{when}] \"{method} {uri} {proto}\" {status} {size}" {
+        rotate_size 100  # Rotate after 50 MB
+        rotate_age  90  # Keep rotated files for 90 days
+        rotate_keep 90  # Keep at most 20 log files
+    }
 	errors /var/log/caddy/error.log
 	timeouts none
 	root /static
