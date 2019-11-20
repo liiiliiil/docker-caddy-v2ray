@@ -16,7 +16,7 @@ fi
 
 if [[ -e "${current_dir}/../${config_key}" ]] ; then
     ## TODO. 判断最新的两个文件的 MD5
-    backup_config_key="${config_key}.`date "+%Y%m%d-%H%m%S"`"
+    backup_config_key="${config_key}.`date "+%Y%m%d-%H%M%S"`"
     echo "已经存在 ${config_key} 文件，备份到 ${back_up} 目录中: mv ${config_key} to ${back_up}/${backup_config_key}"
     mv -vf ${current_dir}/../${config_key} ${current_dir}/../${back_up}/${backup_config_key}
 fi
