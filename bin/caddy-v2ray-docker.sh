@@ -152,11 +152,14 @@ export CADDY_TLS_CONFIG
 
 
 
-content=$(cat ${root_dir}/${v2ray_server_config} | envsubst)
+content=`cat ${root_dir}/${v2ray_server_config} | envsubst`
+echo "$content"
 echo ${content} > ${v2ray_server_config}
 
-content=$(cat ${root_dir}/${composeFile} | envsubst)
+content=`cat ${root_dir}/${composeFile} | envsubst`
+echo "$content"
 echo ${content} > ${composeFile}
 
-content=$(cat ${root_dir}/${caddyFile} | envsubst)
+content=`cat ${root_dir}/${caddyFile} | envsubst`
+echo "$content"
 echo ${content} > ${caddyFile}
