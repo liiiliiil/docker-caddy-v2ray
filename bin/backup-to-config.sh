@@ -36,4 +36,5 @@ if [[ -e "${caddy_file}" ]] ; then
     DOMAIN=`head -n 1 ${caddy_file} |awk '{print $1}'`
 fi
 
+writeToConfigSh
 
