@@ -10,7 +10,7 @@ services:
       - ./v2ray-server-config.json:/etc/v2ray/config.json
   caddy:
       image: abiosoft/caddy
-      container_name: caddy
+      container_name: caddy-v2ray
       environment:
         - ACME_AGREE=true
         - CLOUDFLARE_EMAIL=${CF_MAIL}

@@ -65,16 +65,29 @@ function readTcpInput(){
 function readTlsWsInput(){
     readPortAndUUID "Caddy + TLS + WS" 30000 "V2RAY_WS_PORT" "V2RAY_WS_UUID"
 
-    readInput "请输入域名，配置 Caddyfile：" "^([0-9a-zA-Z\.]+)$"
-    DOMAIN=${read_value}
+
+    if [[ ${DOMAIN} != "" ]] ; then
+        echo "${current_type_name} 当前存在 域名 [${DOMAIN}], 继续使用 ！！！！"
+    else
+        readInput "请输入域名，配置 Caddyfile：" "^([0-9a-zA-Z\.]+)$"
+        DOMAIN=${read_value}
+    fi
+
+    echo "域名地址:
+        DOMAIN : [${DOMAIN}]
+    "
 }
 
 function readMail(){
     tip=$1
     mail_config=$2
 
-    readInput "${tip}" "^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$"
-    eval "${mail_config}=${read_value}"
+    if [[ $(eval echo \${${mail_config}}) != "" ]] ; then
+        echo "当前已经配置 邮箱地址 [$(eval echo \${${mail_config}})], 继续使用 ！！！！"
+    else
+        readInput "${tip}" "^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$"
+        eval "${mail_config}=${read_value}"
+    fi
 
     echo "邮箱地址 :
         MAIL : [$(eval echo \${${mail_config}})]
@@ -88,8 +101,13 @@ function readMailInput(){
 function readCloudFlareInput(){
     readMail "请输入 CloudFlare 邮箱: " "CF_MAIL"
 
-    readInput "请输入 Global API Key: " "^([A-Za-z0-9]+)$"
-    CF_API_KEY=${read_value}
+    if [[ ${CF_API_KEY} != "" ]] ; then
+        echo "${current_type_name} 当前存在  Global API Key [${CF_API_KEY}], 继续使用 ！！！！"
+    else
+        readInput "请输入 Global API Key: " "^([A-Za-z0-9]+)$"
+        CF_API_KEY=${read_value}
+    fi
+
 
     echo "CloudFlare 配置信息 :
         CF_MAIL     : [${CF_MAIL}]
