@@ -32,12 +32,11 @@ function printConfig(){
     V2RAY_WS_UUID = ${V2RAY_WS_UUID}
 
     DOMAIN = ${DOMAIN}
-    MAIL = ${MAIL}
+    TLS_MAIL = ${TLS_MAIL}
 
     CF_MAIL = ${CF_MAIL}
     CF_API_KEY = ${CF_API_KEY}
     "
-
 }
 source_file ${current_dir}/read-input.sh
 source_file ${current_dir}/ufw-util.sh
@@ -48,7 +47,7 @@ if [[ -e ${root_dir}/config.sh  ]] ; then
 fi
 
 ##### 备份当前配置
-bash ${current_dir}/backup-to-config.sh
+bash -vx ${current_dir}/backup-to-config.sh
 
 ###### 判断系统类型
 cmd="apt"
@@ -124,7 +123,7 @@ case ${OPT_TYPE} in
     readMailInput
     sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config}
 
-    CADDY_TLS_CONFIG="${MAIL}"
+    CADDY_TLS_CONFIG="${TLS_MAIL}"
 
     ;;
  3)
@@ -143,7 +142,7 @@ case ${OPT_TYPE} in
     readTlsWsInput
     readMailInput
 
-    CADDY_TLS_CONFIG="${MAIL}"
+    CADDY_TLS_CONFIG="${TLS_MAIL}"
     ;;
  5)
     # VMess TCP
@@ -165,7 +164,7 @@ export V2RAY_TCP_UUID
 export V2RAY_WS_PORT
 export V2RAY_WS_UUID
 export DOMAIN
-export MAIL
+export TLS_MAIL
 
 export CF_MAIL
 export CF_API_KEY

@@ -90,12 +90,12 @@ function readMail(){
     fi
 
     echo "邮箱地址 :
-        MAIL : [$(eval echo \${${mail_config}})]
+        TLS_MAIL : [$(eval echo \${${mail_config}})]
     "
 }
 
 function readMailInput(){
-    readMail "请输入一个邮箱地址，配置 HTTPS 服务:[ Caddyfile ]" "MAIL"
+    readMail "请输入一个邮箱地址，配置 HTTPS 服务:[ Caddyfile ]" "TLS_MAIL"
 }
 
 function readCloudFlareInput(){
