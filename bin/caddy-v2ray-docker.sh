@@ -91,10 +91,10 @@ case ${OPT_TYPE} in
     readTcpInput
 
     # delete tls + ws config
-    sed '/^.*V2RAY_TLS_WS_CONFIG_START.*$/,/^.*V2RAY_TLS_WS_CONFIG_END.*$/d' ${v2ray_server_config}
+    sed -i -n '/^.*V2RAY_TLS_WS_CONFIG_START.*$/,/^.*V2RAY_TLS_WS_CONFIG_END.*$/d' ${v2ray_server_config}
 
     # delete caddy in docker-compose file
-    sed '/^ *caddy:$/,$d' ${composeFile}
+    sed -i -n '/^ *caddy:$/,$d' ${composeFile}
 
     ;;
  2)
@@ -139,35 +139,37 @@ case ${OPT_TYPE} in
 esac
 
 export V2RAY_TCP_PORT
-echo "$V2RAY_TCP_PORT"
+#echo "$V2RAY_TCP_PORT"
 export V2RAY_TCP_UUID
-echo "$V2RAY_TCP_UUID"
+#echo "$V2RAY_TCP_UUID"
 
 export V2RAY_WS_PORT
-echo "$V2RAY_WS_PORT"
+#echo "$V2RAY_WS_PORT"
 export V2RAY_WS_UUID
-echo "$V2RAY_WS_UUID"
+#echo "$V2RAY_WS_UUID"
 export DOMAIN
-echo "$DOMAIN"
+#echo "$DOMAIN"
 export MAIL
-echo "$MAIL"
+#echo "$MAIL"
 
 export CF_MAIL
-echo "$CF_MAIL"
+#echo "$CF_MAIL"
 export CF_API_KEY
-echo "$CF_API_KEY"
+#echo "$CF_API_KEY"
 export CADDY_TLS_CONFIG
-echo "$CADDY_TLS_CONFIG"
 
 
+function replaceFile(){
+    file=$1
 
-content=`cat ${root_dir}/${v2ray_server_config} | envsubst`
-cat <<< "$content" > ${v2ray_server_config}
+    content=`cat ${root_dir}/${file} | envsubst`
+    cat <<< "$content" > ${file}
+}
 
-content=`cat ${root_dir}/${composeFile} | envsubst`
-cat <<< "$content" > ${composeFile}
+replaceFile ${v2ray_server_config}
+replaceFile ${composeFile}
+replaceFile ${caddyFile}
 
-content=`cat ${root_dir}/${caddyFile} | envsubst`
-cat <<< "$content" > ${caddyFile}
-
-
+# start caddy + v2ray
+docker-compose down
+docker-compose up -d
