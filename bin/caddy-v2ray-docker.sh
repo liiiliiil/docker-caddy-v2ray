@@ -4,13 +4,15 @@
 red='\e[91m'
 yellow='\e[93m'
 none='\e[0m'
-current_dir=$(cd "$(dirname "$0")";pwd)
 
-root_dir="${current_dir}/../"
+root_dir="$(cd "$(dirname "$0")";pwd)/../"
 template_dir="${root_dir}/template"
-v2ray_server_config="v2ray-server-config.json"
-composeFile="docker-compose.yml"
-caddyFile="Caddyfile"
+back_up_dir="${root_dir}/backup"
+
+config_sh_file="config.sh"
+v2ray_server_config_file="v2ray-server-config.json"
+compose_file="docker-compose.yml"
+caddy_file="Caddyfile"
 
 ###### 判断当前用户
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
@@ -38,16 +40,34 @@ function printConfig(){
     CF_API_KEY = ${CF_API_KEY}
     "
 }
-source_file ${current_dir}/read-input.sh
-source_file ${current_dir}/ufw-util.sh
+function writeToConfigSh(){
+    cat >> ${root_dir}/${config_sh_file} << EOF
+#!/usr/bin/env bash
+
+V2RAY_TCP_PORT=${V2RAY_TCP_PORT}
+V2RAY_TCP_UUID=${V2RAY_TCP_UUID}
+
+V2RAY_WS_PORT=${V2RAY_WS_PORT}
+V2RAY_WS_UUID=${V2RAY_WS_UUID}
+
+DOMAIN=${DOMAIN}
+TLS_MAIL=${TLS_MAIL}
+
+CF_MAIL=${CF_MAIL}
+CF_API_KEY=${CF_API_KEY}
+EOF
+
+}
+source_file ${root_dir}/bin/read-input.sh
+source_file ${root_dir}/bin/ufw-util.sh
 
 if [[ -e ${root_dir}/config.sh  ]] ; then
-    source_file ${current_dir}/../config.sh
+    source_file ${root_dir}/config.sh
     printConfig "当前配置文件中的变量"
 fi
 
 ##### 备份当前配置
-bash -vx ${current_dir}/backup-to-config.sh
+bash -vx ${root_dir}/bin/backup-to-config.sh
 
 ###### 判断系统类型
 cmd="apt"
@@ -59,9 +79,9 @@ fi
 
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"
-if [[ ! $(grep "${key_word}"  /etc/ssh/sshd_config) ]] ; then
+if [[ ! $(grep "${key_word}" /etc/ssh/sshd_config) ]] ; then
     # update ssh port and set only rsa login only
-    bash ${current_dir}/ssh-util.sh
+    bash ${root_dir}/bin/ssh-util.sh
     echo "${key_word}">> /etc/ssh/sshd_config
 fi
 ###### 安装 docker && docker-compose
@@ -101,9 +121,9 @@ OPT_TYPE=${read_value}
 echo "当前选择: [${OPT_TYPE}] "
 echo ""
 
-copyFile ${v2ray_server_config} ${template_dir}/${v2ray_server_config} ${root_dir}/${v2ray_server_config}
-copyFile ${composeFile} ${template_dir}/${composeFile} ${root_dir}/${composeFile}
-copyFile ${caddyFile} ${template_dir}/${caddyFile} ${root_dir}/${caddyFile}
+copyFile ${v2ray_server_config_file} ${template_dir}/${v2ray_server_config_file} ${root_dir}/${v2ray_server_config_file}
+copyFile ${compose_file} ${template_dir}/${compose_file} ${root_dir}/${compose_file}
+copyFile ${caddy_file} ${template_dir}/${caddy_file} ${root_dir}/${caddy_file}
 
 case ${OPT_TYPE} in
  1)
@@ -111,17 +131,17 @@ case ${OPT_TYPE} in
     readTcpInput
 
     # delete tls + ws config
-    sed -i '/^.*V2RAY_TLS_WS_CONFIG_START.*$/,/^.*V2RAY_TLS_WS_CONFIG_END.*$/d' ${v2ray_server_config}
+    sed -i '/^.*V2RAY_TLS_WS_CONFIG_START.*$/,/^.*V2RAY_TLS_WS_CONFIG_END.*$/d' ${v2ray_server_config_file}
 
     # delete caddy in docker-compose file
-    sed -i '/^ *caddy:$/,$d' ${composeFile}
+    sed -i '/^ *caddy:$/,$d' ${compose_file}
 
     ;;
  2)
     # Caddy + TLS + WS
     readTlsWsInput
     readMailInput
-    sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config}
+    sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config_file}
 
     CADDY_TLS_CONFIG="${TLS_MAIL}"
 
@@ -131,7 +151,7 @@ case ${OPT_TYPE} in
     readTlsWsInput
     readCloudFlareInput
 
-    sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config}
+    sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config_file}
 
     ;;
  4)
@@ -170,8 +190,8 @@ export CF_MAIL
 export CF_API_KEY
 export CADDY_TLS_CONFIG
 
-
-printConfig "替换配置文件中的变量"
+# 保存配置
+writeToConfigSh
 
 function replaceFile(){
     file=$1
@@ -179,12 +199,10 @@ function replaceFile(){
     content=`cat ${root_dir}/${file} | envsubst`
     cat <<< "$content" > ${file}
 }
-
-replaceFile ${v2ray_server_config}
-replaceFile ${composeFile}
-replaceFile ${caddyFile}
-
-echo
+printConfig "替换配置文件中的变量"
+replaceFile ${v2ray_server_config_file}
+replaceFile ${compose_file}
+replaceFile ${caddy_file}
 
 echo "启动容器。。。。。"
 # start caddy + v2ray
