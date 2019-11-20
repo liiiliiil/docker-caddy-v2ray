@@ -139,27 +139,35 @@ case ${OPT_TYPE} in
 esac
 
 export V2RAY_TCP_PORT
+echo "$V2RAY_TCP_PORT"
 export V2RAY_TCP_UUID
+echo "$V2RAY_TCP_UUID"
 
 export V2RAY_WS_PORT
+echo "$V2RAY_WS_PORT"
 export V2RAY_WS_UUID
+echo "$V2RAY_WS_UUID"
 export DOMAIN
+echo "$DOMAIN"
 export MAIL
+echo "$MAIL"
 
 export CF_MAIL
+echo "$CF_MAIL"
 export CF_API_KEY
+echo "$CF_API_KEY"
 export CADDY_TLS_CONFIG
+echo "$CADDY_TLS_CONFIG"
 
 
 
 content=`cat ${root_dir}/${v2ray_server_config} | envsubst`
-echo "$content"
-echo ${content} > ${v2ray_server_config}
+cat <<< "$content" > ${v2ray_server_config}
 
 content=`cat ${root_dir}/${composeFile} | envsubst`
-echo "$content"
-echo ${content} > ${composeFile}
+cat <<< "$content" > ${composeFile}
 
 content=`cat ${root_dir}/${caddyFile} | envsubst`
-echo "$content"
-echo ${content} > ${caddyFile}
+cat <<< "$content" > ${caddyFile}
+
+
