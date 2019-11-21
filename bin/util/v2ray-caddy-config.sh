@@ -63,6 +63,11 @@ echo "当前选择操作 : [${OPT_TYPE}] "
 echo ""
 
 
+echo "copy ${source} 模版文件...."
+copyFile ${template_dir}/v2ray-server-config.json  ${v2ray_server_config_file}
+copyFile ${template_dir}/docker-compose.yml ${compose_file}
+copyFile ${template_dir}/Caddyfile ${caddy_file}
+
 if [[ "${modify}" == "modify" ]] ; then
     reConfig ${OPT_TYPE}
 fi
@@ -120,11 +125,6 @@ case ${OPT_TYPE} in
     exit 1
 esac
 
-
-echo "copy ${source} 模版文件...."
-copyFile ${template_dir}/v2ray-server-config.json  ${v2ray_server_config_file}
-copyFile ${template_dir}/docker-compose.yml ${compose_file}
-copyFile ${template_dir}/Caddyfile ${caddy_file}
 
 export V2RAY_TCP_PORT
 export V2RAY_TCP_UUID

@@ -10,20 +10,20 @@ echo ""
 echo "备份当前运行的配置信息........"
 
 if [[ -e "${v2ray_server_config_file}" ]] ; then
-    V2RAY_TCP_PORT=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_server_config_file} | grep "port" | tr -d -c "[0-9]"`
-    V2RAY_TCP_UUID=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_server_config_file} | grep "id" | awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
+    V2RAY_TCP_PORT=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_server_config_file} | grep "port" | grep -v "V2RAY_TCP_PORT" | tr -d -c "[0-9]"`
+    V2RAY_TCP_UUID=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_server_config_file} | grep "id" | grep -v "V2RAY_TCP_UUID" |awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
 
-    V2RAY_WS_PORT=`grep -B 15 "wsSettings"  ${v2ray_server_config_file}| grep "port" | tr -d -c "[0-9]"`
-    V2RAY_WS_UUID=`grep -B 15 "wsSettings" ${v2ray_server_config_file} | grep "id" | awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
+    V2RAY_WS_PORT=`grep -B 15 "wsSettings"  ${v2ray_server_config_file}| grep "port" | grep -v "V2RAY_WS_PORT"| tr -d -c "[0-9]"`
+    V2RAY_WS_UUID=`grep -B 15 "wsSettings" ${v2ray_server_config_file} | grep "id" | grep -v "V2RAY_WS_UUID"| awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
 fi
 
 if [[ -e "${compose_file}" ]] ; then
-    CF_MAIL=`grep "CLOUDFLARE_EMAIL" ${compose_file} | awk -F '=' '{print $2}'`
-    CF_API_KEY=`grep "CLOUDFLARE_API_KEY" ${compose_file} | awk -F '=' '{print $2}'`
+    CF_MAIL=`grep "CLOUDFLARE_EMAIL" ${compose_file} | grep -v "CF_MAIL" | awk -F '=' '{print $2}'`
+    CF_API_KEY=`grep "CLOUDFLARE_API_KEY" ${compose_file}| grep -v "CF_API_KEY" | awk -F '=' '{print $2}'`
 fi
 
 if [[ -e "${caddy_file}" ]] ; then
-    DOMAIN=`head -n 1 ${caddy_file} |awk '{print $1}'`
+    DOMAIN=`head -n 1 ${caddy_file} | grep -v "DOMAIN" |awk '{print $1}'`
 fi
 
 
