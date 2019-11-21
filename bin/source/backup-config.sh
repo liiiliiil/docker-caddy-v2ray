@@ -10,11 +10,11 @@ echo ""
 echo "备份当前运行的配置信息........"
 
 if [[ -e "${v2ray_server_config_file}" ]] ; then
-    V2RAY_TCP_PORT=`grep -B 15 "V2RAY_TCP_CONFIG_START" ${v2ray_server_config_file} | grep "port" | grep -v "V2RAY_TCP_PORT" | tr -d -c "[0-9]"`
-    V2RAY_TCP_UUID=`grep -B 15 "V2RAY_TCP_CONFIG_START" ${v2ray_server_config_file} | grep "id" | grep -v "V2RAY_TCP_UUID" |awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
+    V2RAY_TCP_PORT=`grep -A 15 "V2RAY_TCP_CONFIG_START" ${v2ray_server_config_file} | grep "port" | grep -v "V2RAY_TCP_PORT" | tr -d -c "[0-9]"`
+    V2RAY_TCP_UUID=`grep -A 15 "V2RAY_TCP_CONFIG_START" ${v2ray_server_config_file} | grep "id" | grep -v "V2RAY_TCP_UUID" |awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
 
-    V2RAY_WS_PORT=`grep -B 15 "V2RAY_TLS_WS_CONFIG_START" ${v2ray_server_config_file}| grep "port" | grep -v "V2RAY_WS_PORT"| tr -d -c "[0-9]"`
-    V2RAY_WS_UUID=`grep -B 15 "V2RAY_TLS_WS_CONFIG_START" ${v2ray_server_config_file} | grep "id" | grep -v "V2RAY_WS_UUID"| awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
+    V2RAY_WS_PORT=`grep -A 15 "V2RAY_TLS_WS_CONFIG_START" ${v2ray_server_config_file}| grep "port" | grep -v "V2RAY_WS_PORT"| tr -d -c "[0-9]"`
+    V2RAY_WS_UUID=`grep -A 15 "V2RAY_TLS_WS_CONFIG_START" ${v2ray_server_config_file} | grep "id" | grep -v "V2RAY_WS_UUID"| awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
 fi
 
 if [[ -e "${compose_file}" ]] ; then
