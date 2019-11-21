@@ -48,5 +48,5 @@ git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
     && chmod +x /usr/local/bin/v2ray.sh
 
 # 执行命令
-./v2ray.sh
+v2ray.sh
 

@@ -13,20 +13,22 @@
 3. (可选) 修改 SSH 端口，禁止密码登陆,禁用 UseDNS 和 GSSAPIAuthentication
 4. 安装 docker 和 docker-compose
 5. 安装 ufw，配置防火墙端口
-6. copy v2ray.sh 到 /usr/local/bin 目录
+6. git clone 该仓库到本地
+7. copy v2ray.sh 到 /usr/local/bin 目录
 
 **注意:** 如果有修改 SSH 端口，脚本会自动开放端口，但是最好还是检查一下防火墙。
 
 ## 配置 V2Ray + Caddy 服务
 ### 默认可以生成 5 种配置方式
 #### 1. VMess TCP
-端口 : 默认 37849    
+端口 : 默认 37849(防火墙允许)
 UUID : 自动生成
 
 #### 2. Caddy + TLS + WS
 域名 : 自行配置     
-端口 : Caddy 绑定 80 和 443（不能修改）    
+端口 : 默认 30000(防火墙不允许)
 UUID : 自动生成
+Caddy: Caddy 绑定 80 和 443（不能修改）, 防火墙允许
 
 #### 3. CloudFlare(CDN) + Caddy + TLS + WS
 域名 : 自行配置

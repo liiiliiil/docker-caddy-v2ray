@@ -23,7 +23,7 @@ Usage:
     [r] restart     重启 V2Ray 和 Caddy
     [h] help        帮助文档
 USAGE
-exist 1
+exit 1
 }
 
 case $OPT in
