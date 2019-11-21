@@ -33,7 +33,9 @@ git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
     && ln -s -f `pwd`/docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
 
 ###### ufw 配置
-bash `pwd`/docker-caddy-v2ray/bin/source/ufw.sh
+source `pwd`/docker-caddy-v2ray/bin/source/ufw.sh
+#开启防火墙
+enable_ufw
 
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"

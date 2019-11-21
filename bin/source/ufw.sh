@@ -53,6 +53,4 @@ if [[ ! $(command -v ufw) ]]; then
     ${cmd} install -y ufw
 fi
 
-#开启防火墙
-enable_ufw
 

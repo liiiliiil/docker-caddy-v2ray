@@ -7,6 +7,7 @@ config_sh_file="config.sh"
 cd ${root_dir}
 
 source ${root_dir}/bin/source/common_function.sh
+source ${root_dir}/bin/source/ufw.sh
 if [[ -e ${root_dir}/${config_sh_file}  ]] ; then
     source_file ${root_dir}/${config_sh_file}
 fi
