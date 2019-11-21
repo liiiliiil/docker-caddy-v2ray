@@ -66,6 +66,12 @@ function replaceFile(){
 
 function docker_start(){
     echo "启动容器。。。。。"
+    # check files
+    if [[ ! -e ${pro_root_dir}/docker-compose.yml ]] ; then
+        echo "不存在 docker-compose.yml 文件，启动失败"
+        return
+    fi
+
     # start caddy + v2ray
     docker-compose down
     docker-compose up -d
