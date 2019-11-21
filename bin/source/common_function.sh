@@ -60,7 +60,7 @@ function replaceFile(){
     file=$1
 
     content=`cat ${file} | envsubst`
-    cat <<< "$content" > ${file}
+    cat <<< "${content}" > ${file}
 }
 
 function checkDockerCompose(){

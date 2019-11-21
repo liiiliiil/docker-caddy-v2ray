@@ -88,7 +88,7 @@ case ${OPT_TYPE} in
     # Caddy + TLS + WS
     readTlsWsInput
     readMailInput
-    sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config_file}
+    sed -i '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config_file}
 
     CADDY_TLS_CONFIG="${TLS_MAIL}"
 
@@ -98,7 +98,7 @@ case ${OPT_TYPE} in
     readTlsWsInput
     readCloudFlareInput
 
-    sed '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config_file}
+    sed -i '/^.*V2RAY_TCP_CONFIG_START.*$/,/^.*V2RAY_TCP_CONFIG_END.*$/d' ${v2ray_server_config_file}
 
     ;;
  4)
