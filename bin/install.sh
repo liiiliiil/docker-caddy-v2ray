@@ -29,14 +29,14 @@ fi
 
 echo "git clone 仓库......"
 git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
-    && chmod +x docker-caddy-v2ray/bin/v2ray.sh \
-    && ln -s -f docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
+    && chmod +x `pwd`/docker-caddy-v2ray/bin/v2ray.sh \
+    && ln -s -f `pwd`/docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
 
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"
 if [[ ! $(grep "${key_word}" /etc/ssh/sshd_config) ]] ; then
     # update ssh port and set only rsa login only
-    bash docker-caddy-v2ray/bin/util/ssh-config.sh
+    bash `pwd`/docker-caddy-v2ray/bin/util/ssh-config.sh
     echo "${key_word}">> /etc/ssh/sshd_config
 fi
 
@@ -47,5 +47,5 @@ fi
 
 
 # 执行命令
-v2ray.sh
+v2ray
 

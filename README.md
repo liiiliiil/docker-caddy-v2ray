@@ -50,10 +50,13 @@ Debian 9+ / Ubuntu 16.04 + (测试通过，可用)
 CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 
 # 准备工作
-如果使用 SS 和 tcp 直接， 只需要购买一个 VPS。
+如果只使用 VMess TCP 直接连接的方式(俗称裸奔)， 只需要购买一台 VPS。
 
-如果需要使用 WebSocket + TLS + Web + CDN ，需要购买域名和注册 CloudFlare 账号。
+如果需要使用 Caddy + TLS + WS ，需要购买一台 VPS, 注册一个域名。
 
+如果需要使用 CloudFlare(CDN) + Caddy + TLS + WS ，需要购买一台 VPS, 注册一个域名和 CloudFlare 账号。
+
+## 域名购买 和 注册 CloudFlare
 1. 购买一个域名，找个 xxxx.com ，购买一个自己的域名.
 2. 因为要使用 CloudFlare 的 CDN，去 https://www.cloudflare.com/ 注册一个账号，然后添加自己域名到 CloudFlare。CloudFlare 会列出两个 NameServer 需要配置到自己购买域名.
     ![namecheap-set-custom-ns](https://img.tupm.net/2019/09/59F435E69681B8091B72F3EDD75103F8.jpg)
