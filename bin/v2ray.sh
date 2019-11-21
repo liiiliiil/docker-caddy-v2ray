@@ -39,6 +39,7 @@ case $OPT in
     u | update)
         git reset --hard
         git pull origin master
+        chmod +x ${pro_root_dir}/bin/v2ray.sh
 
         docker_update
         docker_restart
