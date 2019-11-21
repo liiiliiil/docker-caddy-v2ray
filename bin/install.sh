@@ -2,11 +2,19 @@
 
 root_dir="$(cd "$(dirname "$0")";pwd)/.."
 
-###### 更新 DNS
-echo "更新 DNS 信息"
-sed -i 's/^nameserver.*$//g' /etc/resolv.conf \
-    && echo "nameserver 8.8.8.8\nnameserver 8.8.4.4\n" >> /etc/resolv.conf \
-    && sed -i '/^$/d' /etc/resolv.conf \
+cat << EOF
+1. 默认配置 DNS server 为 8.8.8.8 和 8.8.4.4
+EOF
+# update dns server
+dns_config=/etc/resolv.conf
+sed -i 's/^nameserver.*$//g' $dns_config
+echo "
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+" >> $dns_config
+
+## delete blank rows
+sed -i '/^$/d' /etc/resolv.conf
 
 ###### 需要安装的软件
 install_apps=(curl git vim net-tools mlocate wget ufw gettext coreutils)

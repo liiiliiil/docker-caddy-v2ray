@@ -6,32 +6,43 @@
 但是配置 V2ray 的 WebSocket + TLS + Web + CDN 步骤太多，而且，稍为不注意还容易出错，所以为了方便搭建，使用 Shell 基于 Docker 做了一个一键部署脚本。
 
 # 脚本功能
+
 ## 初始化 Server
 1. 设置 Server 的 DNS 为 8.8.8.8 和 8.8.4.4
-2. 安装常用工具: vim mosh dnsutils net-tools mlocate wget
-3. 修改 SSH 端口，禁止密码登陆（可选）
+2. 安装常用工具: curl git vim net-tools mlocate wget ufw gettext coreutils bind-utils(dnsutils)
+3. (可选) 修改 SSH 端口，禁止密码登陆,禁用 UseDNS 和 GSSAPIAuthentication
 4. 安装 docker 和 docker-compose
 5. 安装 ufw，配置防火墙端口
+6. copy v2ray.sh 到 /usr/local/bin 目录
 
 **注意:** 如果有修改 SSH 端口，脚本会自动开放端口，但是最好还是检查一下防火墙。
 
-## 生成 V2Ray 配置
-V2Ray 可以根据提示生成三种连接方式:
-
-### 1. Shadowsocks(SS) 
-端口 : 默认 39832    
-密码 : 随机 24 长度字符串。     
-加密方式 : chacha20-ietf-poly1305   
-
-### 2. V2Ray tcp 直连
+## 配置 V2Ray + Caddy 服务
+### 默认可以生成 5 种配置方式
+#### 1. VMess TCP
 端口 : 默认 37849    
 UUID : 自动生成
 
-### 3. V2Ray WebSocket + TLS + Web + CDN(CloudFlare)，
+#### 2. Caddy + TLS + WS
 域名 : 自行配置     
 端口 : Caddy 绑定 80 和 443（不能修改）    
 UUID : 自动生成
 
+#### 3. CloudFlare(CDN) + Caddy + TLS + WS
+域名 : 自行配置
+端口 : Caddy 绑定 80 和 443（不能修改）
+UUID : 自动生成
+
+
+#### 4. [VMess 默认 TCP] + [ Caddy + TLS + WS ] 两种方式
+域名 : 自行配置
+端口 : Caddy 绑定 80 和 443（不能修改）
+UUID : 自动生成
+
+#### 5. [VMess 默认 TCP] + [ CloudFlare(CDN) + Caddy + TLS + WS ] 两种方式
+域名 : 自行配置
+端口 : Caddy 绑定 80 和 443（不能修改）
+UUID : 自动生成
 
 # 依赖环境
 Debian 9+ / Ubuntu 16.04 + (测试通过，可用)     
@@ -58,12 +69,14 @@ CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 # Debian / Ubuntu
 apt -y update  \
     && apt -y upgrade  \
-    && bash < (curl -s https://git.io/Je62y)
+    && apt install -y curl \
+    && bash <(curl -s -L https://git.io/Je62y)
 
 # REHL / CentOS
 yum -y update \
     && yum install -y epel-release  \
-    && bash < (curl -s https://git.io/Je62y)
+    && yum install -y curl \
+    && bash <(curl -s -L https://git.io/Je62y)
 
 ```
 **说明:**
