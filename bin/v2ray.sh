@@ -2,7 +2,7 @@
 
 pro_root_dir=$(cd "$(dirname "$(readlink -f $(which v2ray))")";pwd)/..
 
-source ${pro_root_dir}/source/common_function.sh
+source ${pro_root_dir}/bin/source/common_function.sh
 
 ####### 参数解析 #######
 cmdname=$(basename $0)
@@ -28,10 +28,10 @@ exit 1
 
 case $OPT in
     c | config)
-        bash ${pro_root_dir}/util/v2ray-caddy-config.sh
+        bash ${pro_root_dir}/bin/util/v2ray-caddy-config.sh
         ;;
     m | modify)
-        bash ${pro_root_dir}/util/v2ray-caddy-config.sh modify
+        bash ${pro_root_dir}/bin/util/v2ray-caddy-config.sh modify
         ;;
     u | update)
         git reset --hard
