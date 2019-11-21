@@ -47,5 +47,5 @@ fi
 
 
 # 执行命令
-v2ray
+v2ray config
 

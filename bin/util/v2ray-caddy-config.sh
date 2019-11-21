@@ -5,7 +5,7 @@ red='\e[91m'
 yellow='\e[93m'
 none='\e[0m'
 
-root_dir="$(cd "$(dirname "$0")";pwd)/.."
+root_dir="$(cd "$(dirname "$0")";pwd)/../.."
 template_dir="${root_dir}/template"
 back_up_dir="${root_dir}/backup"
 
