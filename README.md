@@ -83,27 +83,23 @@ yum -y update \
     && bash <(curl -s -L https://git.io/Je62y)
 
 ```
+
 **说明:**
-
-命令会自动安装 git 和curl，clone 仓库到本地，运行 caddy-v2ray-docker.sh 脚本。脚本接受两个参数:
-
-| 参数         | 是否必须| 是否有值           | 说明     |
-| ------------- |:--------:|:--------:|:-----|
-| -i | 否 | 否| 是否初始化 Server      |
-| -c | 否 | 否| 是否重新配置 V2Ray       |
-
-如果不加参数表示不执行相应的操作。
-
-## 更新
-```shell
-git pull && bash caddy-v2ray-docker.sh
-```
-
-## 重启
-不加参数运行脚本即可
+命令会自动安装curl，clone 仓库到本地，创建一个 v2ray 命令到 /usr/local/bin/
 
 ```shell
-bash caddy-v2ray-docker.sh
+# 执行 v2ray 命令，即可进行其他操作，可以使用短参数 或者 长参数
+v2ray c === v2ray config
+
+当前可用命令如下:
+
+    v2ray [c|config]      配置 V2Ray 和 Caddy
+    v2ray [m|modify]      修改 V2Ray 和 Caddy 配置
+    v2ray [u|update]      更新 V2Ray 和 Caddy 的 Docker 版本
+    v2ray [s|start]       启动 V2Ray 和 Caddy
+    v2ray [p|stop]        关闭 V2Ray 和 Caddy
+    v2ray [r|restart]     重启 V2Ray 和 Caddy
+    v2ray [h|help]        帮助文档
 ```
 
 ## 查看日志
