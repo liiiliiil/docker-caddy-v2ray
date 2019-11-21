@@ -115,8 +115,7 @@ function readCloudFlareInput(){
 
 function reConfigTcp(){
     if [[ ${V2RAY_TCP_PORT} != "" || ${V2RAY_TCP_UUID} != "" ]] ; then
-        readInput "已经存在 VMess TCP 配置: [ Port : ${V2RAY_TCP_PORT}, UUID : ${V2RAY_TCP_UUID} ],
-             是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
+        readInput "已经存在 VMess TCP 配置: [ Port : ${V2RAY_TCP_PORT}, UUID : ${V2RAY_TCP_UUID} ], 是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
         reConfigTcp=${read_value}
     fi
     if [[ ${reConfigTcp} == "y" ]]; then
@@ -127,8 +126,7 @@ function reConfigTcp(){
 
 function reConfigTlsWs(){
     if [[ ${V2RAY_WS_PORT} != "" || ${V2RAY_WS_UUID} != "" ]] ; then
-        readInput "已经存在 VMess TLS + WS 配置: [ Port : ${V2RAY_WS_PORT}, UUID : ${V2RAY_WS_UUID} ],
-             是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
+        readInput "已经存在 VMess TLS + WS 配置: [ Port : ${V2RAY_WS_PORT}, UUID : ${V2RAY_WS_UUID} ], 是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
         reConfigTlsWs=${read_value}
     fi
     if [[ ${reConfigTlsWs} == "y" ]]; then
@@ -142,8 +140,7 @@ function reConfigTlsWs(){
 
 function reConfigCF(){
     if [[ ${CF_MAIL} != "" || ${CF_API_KEY} != "" ]] ; then
-        readInput "已经存在 CloudFlare 配置: [ Mail : ${CF_MAIL}, API Key : ${CF_API_KEY} ],
-             是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
+        readInput "已经存在 CloudFlare 配置: [ Mail : ${CF_MAIL}, API Key : ${CF_API_KEY} ], 是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
         reConfigCF=${read_value}
     fi
     if [[ ${reConfigCF} == "y" ]]; then
