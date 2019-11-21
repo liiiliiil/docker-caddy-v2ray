@@ -9,10 +9,11 @@ root_dir="$(cd "$(dirname "$0")";pwd)/../"
 template_dir="${root_dir}/template"
 back_up_dir="${root_dir}/backup"
 
-config_sh_file="${root_dir}/config.sh"
 v2ray_server_config_file="${root_dir}/v2ray-server-config.json"
 compose_file="${root_dir}/docker-compose.yml"
 caddy_file="${root_dir}/Caddyfile"
+
+config_sh_file="config.sh"
 
 ###### 判断当前用户
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
@@ -41,7 +42,7 @@ function printConfig(){
     "
 }
 function writeToConfigSh(){
-    cat >> ${config_sh_file} << EOF
+    cat >> ${root_dir}/${config_sh_file} << EOF
 #!/usr/bin/env bash
 
 V2RAY_TCP_PORT=${V2RAY_TCP_PORT}
@@ -61,8 +62,8 @@ EOF
 source_file ${root_dir}/bin/read-input.sh
 source_file ${root_dir}/bin/ufw-util.sh
 
-if [[ -e ${config_sh_file}  ]] ; then
-    source_file ${config_sh_file}
+if [[ -e ${root_dir}/${config_sh_file}  ]] ; then
+    source_file ${root_dir}/${config_sh_file}
     printConfig "当前配置文件中的变量"
 fi
 

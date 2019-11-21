@@ -6,18 +6,18 @@ if [[ ! -d "${back_up_dir}" ]] ; then
     mkdir ${back_up_dir}
 fi
 
-if [[ -e "${config_sh_file}" ]] ; then
+if [[ -e "${root_dir}/${config_sh_file}" ]] ; then
     ## TODO. 判断最新的两个文件的 MD5
-    backup_config_key="${back_up_dir}/config.sh.`date "+%Y%m%d-%H%M%S"`"
-    echo "已经存在 ${config_sh_file} 文件，备份到 ${back_up_dir} 目录中: cp ${config_sh_file} to ${backup_config_key}"
-    cp -vf ${config_sh_file} ${backup_config_key}
+    backup_config_sh="${back_up_dir}/${config_sh_file}.`date "+%Y%m%d-%H%M%S"`"
+    echo "已经存在 ${root_dir}/${config_sh_file} 文件，备份到 ${back_up_dir} 目录中: cp ${root_dir}/${config_sh_file} to ${backup_config_sh}"
+    cp -vf ${root_dir}/${config_sh_file} ${backup_config_sh}
     
      # 如果文件存在，备份一份，然后直接返回
     return 
 fi
 
 echo ""
-echo "当前不存在 ${config_sh_file} 文件, 根据当前运行的配置文件生成........"
+echo "当前不存在 ${root_dir}/${config_sh_file} 文件, 根据当前运行的配置文件生成........"
 
 if [[ -e "${v2ray_server_config_file}" ]] ; then
     V2RAY_TCP_PORT=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_server_config_file} | grep "port" | tr -d -c "[0-9]"`
