@@ -29,11 +29,16 @@ else
     apt install -y ${install_apps[*]} dnsutils
 fi
 
+echo "git clone 仓库......"
+git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
+    && chmod +x docker-caddy-v2ray/bin/v2ray.sh \
+    && ln -s -f ${root_dir}/docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
+
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"
 if [[ ! $(grep "${key_word}" /etc/ssh/sshd_config) ]] ; then
     # update ssh port and set only rsa login only
-    bash ${root_dir}/bin/util/ssh-config.sh
+    bash ${root_dir}/docker-caddy-v2ray/bin/util/ssh-config.sh
     echo "${key_word}">> /etc/ssh/sshd_config
 fi
 
@@ -42,10 +47,6 @@ if [[ ! $(command -v docker) || ! $(command -v docker-compose) ]]; then
     bash <(curl -s -L https://git.io/JeZ5P)
 fi
 
-echo "git clone 仓库......"
-git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
-    && cp -fv docker-caddy-v2ray/bin/v2ray.sh /usr/local/bin \
-    && chmod +x /usr/local/bin/v2ray.sh
 
 # 执行命令
 v2ray.sh

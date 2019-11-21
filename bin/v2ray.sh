@@ -36,6 +36,7 @@ case $OPT in
     u | update)
         git reset --hard
         git pull origin master
+
         docker_update
         docker_restart
         ;;
