@@ -7,7 +7,14 @@ if [[ ! -d "${back_up_dir}" ]] ; then
 fi
 
 if [[ -e "${root_dir}/${config_sh_file}" ]] ; then
-    ## TODO. 判断最新的两个文件的 MD5
+    ## 如果 root 目录中的 config.sh 和 backup 中的 config.sh.xxxxx md5 相同，则不需要再备份
+    current_md5=`md5sum ${root_dir}/${config_sh_file}`
+    latest_backup_md5=`md5sum $(ls -t ${back_up_dir} | head -n 1) | cut -f 1 -d " "`
+    if [[ "${current_md5}"x == "${latest_backup_md5}"x ]] ; then
+        echo "备份已经是最新文件，不用备份"
+        return
+    fi
+
     backup_config_sh="${back_up_dir}/${config_sh_file}.`date "+%Y%m%d-%H%M%S"`"
     echo "已经存在 ${root_dir}/${config_sh_file} 文件，备份到 ${back_up_dir}  "
     cp -vf ${root_dir}/${config_sh_file} ${backup_config_sh}

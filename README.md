@@ -57,14 +57,14 @@ CentOS 7+ (没有测试，如果有问题，请提交到 Issue)
 # Debian / Ubuntu
 sed -i 's/^nameserver.*$//g' /etc/resolv.conf && echo "nameserver 8.8.8.8\nnameserver 8.8.4.4\n" >> /etc/resolv.conf \
     && sed -i '/^$/d' /etc/resolv.conf \
-    && apt -y update && apt -y upgrade && apt install -y curl git vim dnsutils net-tools mlocate wget ufw gettext \
+    && apt -y update && apt -y upgrade && apt install -y curl git vim dnsutils net-tools mlocate wget ufw gettext coreutils \
     && git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
     && cd docker-caddy-v2ray && bash caddy-v2ray-docker.sh -i -c
 
 # REHL / CentOS
 sed -i 's/^nameserver.*$//g' /etc/resolv.conf && echo "nameserver 8.8.8.8\nnameserver 8.8.4.4\n" >> /etc/resolv.conf \
     && sed -i '/^$/d' /etc/resolv.conf \
-    && yum -y update && yum install -y epel-release && yum install -y curl git vim bind-utils net-tools mlocate wget ufw gettext \
+    && yum -y update && yum install -y epel-release && yum install -y curl git vim bind-utils net-tools mlocate wget ufw gettext coreutils \
     && git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
     && cd docker-caddy-v2ray && bash caddy-v2ray-docker.sh -i -c
 ```
