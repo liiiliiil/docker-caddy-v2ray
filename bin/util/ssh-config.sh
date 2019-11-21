@@ -39,7 +39,7 @@ if [[ ${changeSsh} == y ]]; then
     echo "UseDNS no">> /etc/ssh/sshd_config
     echo "GSSAPIAuthentication no">> /etc/ssh/sshd_config
 
-    old_ssh_port=`netstat -anp | grep -i -w tcp | grep LISTEN | awk '{print $4}' | cut -f 2 -d ':'`
+    old_ssh_port=`netstat -anp | grep -i -w tcp | grep LISTEN | grep sshd| awk '{print $4}' | cut -f 2 -d ':'`
 
     service sshd restart
 

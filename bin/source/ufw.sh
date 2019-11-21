@@ -5,7 +5,7 @@ function enable_ufw(){
     echo "开启防火墙"
     ufw --force enable
     ufw default deny
-    ssh_port=`netstat -anp | grep -i -w tcp | grep LISTEN | awk '{print $4}' | cut -f 2 -d ':'`
+    ssh_port=`netstat -anp | grep -i -w tcp | grep LISTEN | grep sshd| awk '{print $4}' | cut -f 2 -d ':'`
 
     echo "防火墙 开放 ssh 端口: [${ssh_port}] "
     port_allow_ufw ${ssh_port} "tcp"
