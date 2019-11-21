@@ -8,7 +8,7 @@ function enable_ufw(){
     ssh_port=`netstat -anp | grep -i -w tcp | grep LISTEN | awk '{print $4}' | cut -f 2 -d ':'`
 
     echo "防火墙 开放 ssh 端口: [${ssh_port}] "
-    ufw allow ${ssh_port}/tcp
+    port_allow_ufw ${ssh_port} "tcp"
 }
 
 # allow port and protocol

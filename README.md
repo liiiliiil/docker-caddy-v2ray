@@ -88,7 +88,7 @@ yum -y update \
 命令会自动安装curl，clone 仓库到本地，创建一个 v2ray 命令到 /usr/local/bin/
 
 ```shell
-# 执行 v2ray 命令，即可进行其他操作，可以使用短参数 或者 长参数
+# 执行 v2ray 命令，即可进行其他操作，可以使用 短参数 或者 长参数
 v2ray c === v2ray config
 
 当前可用命令如下:
@@ -100,6 +100,7 @@ v2ray c === v2ray config
     v2ray [p|stop]        关闭 V2Ray 和 Caddy
     v2ray [r|restart]     重启 V2Ray 和 Caddy
     v2ray [h|help]        帮助文档
+    
 ```
 
 ## 查看日志
@@ -108,7 +109,7 @@ v2ray c === v2ray config
 
 ```shell
 docker logs v2ray
-docker logs caddy
+docker logs caddy-v2ray
 ```
 ### 应用日志
 应用的日志在当前目录的 log 目录下
