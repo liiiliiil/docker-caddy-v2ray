@@ -35,7 +35,7 @@ function readPortAndUUID(){
 
     echo ""
     echo ""
-    echo "读取 ${current_type_name} 的配置信息......."
+    echo "配置 ${current_type_name} 的配置信息......."
     echo ""
 
     if [[ $(eval echo \${${port_config}}) != "" ]] ; then
@@ -51,11 +51,11 @@ function readPortAndUUID(){
         eval "${uuid_config}=$(cat /proc/sys/kernel/random/uuid)"
         echo "${current_type_name} 生成新的 UUID [$(eval echo \${${uuid_config}})] ！！！！"
     fi
+    echo ""
     echo "${current_type_name} 配置信息:
         PORT : [$(eval echo \${${port_config}})]
         UUID : [$(eval echo \${${uuid_config}})]
     "
-    echo ""
 }
 
 function readTcpInput(){
@@ -89,7 +89,7 @@ function readMail(){
         eval "${mail_config}=${read_value}"
     fi
 
-    echo "当前输入邮箱地址 : [$(eval echo \${${mail_config}})] "
+    echo "邮箱地址 : [$(eval echo \${${mail_config}})] "
 }
 
 function readMailInput(){
@@ -100,7 +100,7 @@ function readCloudFlareInput(){
     readMail "请输入 CloudFlare 邮箱: " "CF_MAIL"
 
     if [[ ${CF_API_KEY} != "" ]] ; then
-        echo "${current_type_name} 当前存在  Global API Key [${CF_API_KEY}], 继续使用 ！！！！"
+        echo "${current_type_name} 当前存在 Global API Key [${CF_API_KEY}], 继续使用 ！！！！"
     else
         readInput "请输入 Global API Key: " "^([A-Za-z0-9]+)$"
         CF_API_KEY=${read_value}
@@ -113,4 +113,81 @@ function readCloudFlareInput(){
     "
 }
 
+function reConfigTcp(){
+    if [[ ${V2RAY_TCP_PORT} != "" || ${V2RAY_TCP_UUID} != "" ]] ; then
+        readInput "已经存在 VMess TCP 配置: [ Port : ${V2RAY_TCP_PORT}, UUID : ${V2RAY_TCP_UUID} ],
+             是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
+        reConfigTcp=${read_value}
+    fi
+    if [[ ${reConfigTcp} == "y" ]]; then
+        V2RAY_TCP_PORT=""
+        V2RAY_TCP_UUID=""
+    fi
+}
 
+function reConfigTlsWs(){
+    if [[ ${V2RAY_WS_PORT} != "" || ${V2RAY_WS_UUID} != "" ]] ; then
+        readInput "已经存在 VMess TLS + WS 配置: [ Port : ${V2RAY_WS_PORT}, UUID : ${V2RAY_WS_UUID} ],
+             是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
+        reConfigTlsWs=${read_value}
+    fi
+    if [[ ${reConfigTlsWs} == "y" ]]; then
+        V2RAY_WS_PORT=""
+        V2RAY_WS_UUID=""
+        DOMAIN=""
+        TLS_MAIL=""
+    fi
+}
+
+
+function reConfigCF(){
+    if [[ ${CF_MAIL} != "" || ${CF_API_KEY} != "" ]] ; then
+        readInput "已经存在 CloudFlare 配置: [ Mail : ${CF_MAIL}, API Key : ${CF_API_KEY} ],
+             是否修改配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
+        reConfigCF=${read_value}
+    fi
+    if [[ ${reConfigCF} == "y" ]]; then
+        CF_MAIL=""
+        CF_API_KEY=""
+    fi
+}
+
+function reConfig(){
+    OPT_TYPE=$1
+
+    case ${OPT_TYPE} in
+     1)
+        # VMess TCP
+        reConfigTcp
+        ;;
+     2)
+        # Caddy + TLS + WS
+        reConfigTlsWs
+        ;;
+     3)
+        # 配置 CloudFlare(CDN) + Caddy + TLS + WS
+        reConfigCF
+        reConfigTlsWs
+        ;;
+     4)
+        # VMess TCP
+        reConfigTcp
+
+        # Caddy + TLS + WS
+        reConfigTlsWs
+        ;;
+     5)
+         # VMess TCP
+        reConfigTcp
+
+        # 配置 CloudFlare(CDN) + Caddy + TLS + WS
+        reConfigCF
+        reConfigTlsWs
+        ;;
+     *)
+        echo "Unknown operation type : [${OPT_TYPE}]"
+        exit 1
+    esac
+
+
+}

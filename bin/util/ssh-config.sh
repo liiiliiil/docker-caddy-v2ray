@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # update ssh port and set only rsa login only
-# Usage :
-#   bash <(curl -s https://raw.githubusercontent.com/yuanmomo/shell-utils/master/network/ssh-util.sh)
+
+current_dir=$(cd "$(dirname "$0")";pwd)
 
 # 脚本说明
 cat << EOF
@@ -13,13 +13,11 @@ cat << EOF
 EOF
 
 # 读取用户输入脚本
-source ${read_input_file}
+source ${current_dir}/../source/read-input.sh
 
 # change ssh config
 readInput "是否需要修改 SSH 配置, (y/n)? (默认: n) " "^([y]|[n])$" "n"
 changeSsh=${read_value}
-
-
 
 if [[ ${changeSsh} == y ]]; then
     readInput "请指定 SSH 新的端口号 (可用范围为0-65535), 默认 27392:  ? " "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-5]{2}[0-3][0-5])$" "27392"
@@ -33,11 +31,14 @@ if [[ ${changeSsh} == y ]]; then
     sed -i 's/^PasswordAuthentication/#PasswordAuthentication/g' /etc/ssh/sshd_config
     # turn off dns
     sed -i 's/^UseDNS/#UseDNS/g' /etc/ssh/sshd_config
+    # turn off GSSAPIAuthentication
+    sed -i 's/^GSSAPIAuthentication/#GSSAPIAuthentication/g' /etc/ssh/sshd_config
 
     echo "Port ${Port}">> /etc/ssh/sshd_config
     echo "PasswordAuthentication no">> /etc/ssh/sshd_config
     echo "UseDNS no">> /etc/ssh/sshd_config
-    
+    echo "GSSAPIAuthentication no">> /etc/ssh/sshd_config
+
     old_ssh_port=`ss -tulpn | grep -i sshd | awk -F ' ' '{print $5}'  | grep "\*"|awk -F ':' '{print $2}'`
 
     service sshd restart

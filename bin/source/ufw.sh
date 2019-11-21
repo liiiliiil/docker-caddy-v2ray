@@ -12,6 +12,10 @@ function port_allow_ufw(){
     port=$1
     # tcp or udp
     type=$2
+    if [[ ! ${port} ]]; then
+        echo "端口参数为空，不能开启"
+        return
+    fi
 
     if [[ ! ${type} ]]; then
         type="tcp"
@@ -42,5 +46,8 @@ function port_allow_ufw(){
 if [[ ! $(command -v ufw) ]]; then
     # install ufw
     ${cmd} install -y ufw
-    enable_ufw
 fi
+
+#开启防火墙
+enable_ufw
+
