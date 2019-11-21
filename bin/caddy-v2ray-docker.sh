@@ -44,11 +44,11 @@ ${tip}:
 
     VMess TCP 端口 和 UUID         : ${V2RAY_TCP_PORT} , ${V2RAY_TCP_UUID}
 
-    Caddy + TLS + WS  端口 和 UUID : ${V2RAY_WS_PORT}  , ${V2RAY_WS_UUID}
+    Caddy + TLS + WS  端口 和 UUID : ${V2RAY_WS_PORT} , ${V2RAY_WS_UUID}
 
-    Caddy 域名 和 邮箱              : ${DOMAIN}         , ${TLS_MAIL}
+    Caddy 域名 和 邮箱              : ${DOMAIN} , ${TLS_MAIL}
 
-    CloudFlare 账号                : ${CF_MAIL}        , ${CF_API_KEY}
+    CloudFlare 账号                : ${CF_MAIL} , ${CF_API_KEY}
     "
 }
 function writeToConfigSh(){
