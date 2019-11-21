@@ -9,7 +9,7 @@ fi
 if [[ -e "${root_dir}/${config_sh_file}" ]] ; then
     ## TODO. 判断最新的两个文件的 MD5
     backup_config_sh="${back_up_dir}/${config_sh_file}.`date "+%Y%m%d-%H%M%S"`"
-    echo "已经存在 ${root_dir}/${config_sh_file} 文件，备份到 ${back_up_dir} 目录中: cp ${root_dir}/${config_sh_file} to ${backup_config_sh}"
+    echo "已经存在 ${root_dir}/${config_sh_file} 文件，备份到 ${back_up_dir}  "
     cp -vf ${root_dir}/${config_sh_file} ${backup_config_sh}
     
      # 如果文件存在，备份一份，然后直接返回
@@ -36,5 +36,7 @@ if [[ -e "${caddy_file}" ]] ; then
     DOMAIN=`head -n 1 ${caddy_file} |awk '{print $1}'`
 fi
 
+
+printConfig "当前运行配置文件中读取到的配置信息, 写入到 ${config_sh_file} 文件"
 writeToConfigSh
 

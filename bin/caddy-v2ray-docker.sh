@@ -5,7 +5,7 @@ red='\e[91m'
 yellow='\e[93m'
 none='\e[0m'
 
-root_dir="$(cd "$(dirname "$0")";pwd)/../"
+root_dir="$(cd "$(dirname "$0")";pwd)/.."
 template_dir="${root_dir}/template"
 back_up_dir="${root_dir}/backup"
 
@@ -15,8 +15,19 @@ caddy_file="${root_dir}/Caddyfile"
 
 config_sh_file="config.sh"
 
+###### 获取外网 IP 地址
+wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
+
 ###### 判断当前用户
 [[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
+
+####### 判断系统类型
+#cmd="apt"
+## GNU/Linux操作系统
+#if [[ $(command -v yum) ]]; then
+#    # RHEL(CentOS)
+#	cmd="yum"
+#fi
 
 ###### 加载工具脚本
 function source_file() {
@@ -27,22 +38,21 @@ function source_file() {
 }
 function printConfig(){
     tip=$1
-    echo "${tip}:
-    V2RAY_TCP_PORT = ${V2RAY_TCP_PORT}
-    V2RAY_TCP_UUID = ${V2RAY_TCP_UUID}
+    echo ""
+    echo "
+${tip}:
 
-    V2RAY_WS_PORT = ${V2RAY_WS_PORT}
-    V2RAY_WS_UUID = ${V2RAY_WS_UUID}
+    VMess TCP 端口 和 UUID: ${V2RAY_TCP_PORT} : ${V2RAY_TCP_UUID}
 
-    DOMAIN = ${DOMAIN}
-    TLS_MAIL = ${TLS_MAIL}
+    Caddy + TLS + WS  端口 和 UUID: ${V2RAY_WS_PORT} : ${V2RAY_WS_UUID}
 
-    CF_MAIL = ${CF_MAIL}
-    CF_API_KEY = ${CF_API_KEY}
+    Caddy 域名 和 邮箱: ${DOMAIN} : ${TLS_MAIL}
+
+    CloudFlare 账号: ${CF_MAIL} : ${CF_API_KEY}
     "
 }
 function writeToConfigSh(){
-    cat >> ${root_dir}/${config_sh_file} << EOF
+    cat > ${root_dir}/${config_sh_file} << EOF
 #!/usr/bin/env bash
 
 V2RAY_TCP_PORT=${V2RAY_TCP_PORT}
@@ -64,19 +74,11 @@ source_file ${root_dir}/bin/ufw-util.sh
 
 if [[ -e ${root_dir}/${config_sh_file}  ]] ; then
     source_file ${root_dir}/${config_sh_file}
-    printConfig "当前配置文件中的变量"
+    printConfig "${config_sh_file} 文件保存的配置信息"
 fi
 
 ##### 备份当前配置
 source_file ${root_dir}/bin/backup-to-config.sh
-
-###### 判断系统类型
-cmd="apt"
-# GNU/Linux操作系统
-if [[ $(command -v yum) ]]; then
-    # RHEL(CentOS)
-	cmd="yum"
-fi
 
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"
@@ -90,36 +92,34 @@ if [[ ! $(command -v docker) || ! $(command -v docker-compose) ]]; then
     bash <(curl -s -L https://git.io/JeZ5P)
 fi
 
-###### 获取外网 IP 地址
-wan_ip=`dig @resolver1.opendns.com ANY myip.opendns.com +short`
 
 ####### 定义变量，读取用户的输入，根据用户的输入生成配置
 # 当前操作类型
 OPT_TYPE=1
-# 默认启用 CloudFlare
+# 默认启用 Caddy 的 CloudFlare 配置
 CADDY_TLS_CONFIG=`echo -e "{\n dns cloudflare \n }"`
-
 
 ###### 读取用户配置
 readInput "
-欢迎使用自动脚本配置 V2ray 服务，请选择何种 [部署方式] 或者 [更新服务] :
 
-[1]: VMess 默认 TCP (默认安装方式)
+欢迎使用自动脚本配置 V2ray 服务，请选择何种 [部署方式] 或者 [更新] :
 
-[2]: Caddy + TLS + WS
+    [1]: VMess 默认 TCP (默认安装方式)
 
-[3]: CloudFlare(CDN) + Caddy + TLS + WS
+    [2]: Caddy + TLS + WS
 
-[4]: [VMess 默认 TCP] + [ Caddy + TLS + WS ] 两种方式
+    [3]: CloudFlare(CDN) + Caddy + TLS + WS
 
-[5]: [VMess 默认 TCP] + [ CloudFlare(CDN) + Caddy + TLS + WS ] 两种方式
+    [4]: [VMess 默认 TCP] + [ Caddy + TLS + WS ] 两种方式
 
-[9]: 更新 Caddy 和 V2ray 版本
+    [5]: [VMess 默认 TCP] + [ CloudFlare(CDN) + Caddy + TLS + WS ] 两种方式
+
+    [9]: 更新 Caddy 和 V2ray 版本
 
 请输入序号, 默认选择 [ 1 ].... " "^([123459])$" "1"
 OPT_TYPE=${read_value}
 
-echo "当前选择: [${OPT_TYPE}] "
+echo "当前选择操作 : [${OPT_TYPE}] "
 echo ""
 
 function copyFile(){
