@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-pro_root_dir=$(cd "$(dirname "$(readlink -f $(which v2ray))")";pwd)/..
+root_dir=$(cd "$(dirname "$(readlink -f $(which v2ray))")";pwd)/..
+config_sh_file="config.sh"
 
 # cd dir
-cd ${pro_root_dir}
+cd ${root_dir}
 
-source ${pro_root_dir}/bin/source/common_function.sh
-if [[ -e ${pro_root_dir}/config.sh ]] ; then
-    source_file ${pro_root_dir}/config.sh
+source ${root_dir}/bin/source/common_function.sh
+if [[ -e ${root_dir}/${config_sh_file}  ]] ; then
+    source_file ${root_dir}/${config_sh_file}
 fi
 
 ####### 参数解析 #######
@@ -38,15 +39,15 @@ exit 1
 
 case $OPT in
     c | config)
-        bash ${pro_root_dir}/bin/util/v2ray-caddy-config.sh
+        bash ${root_dir}/bin/util/v2ray-caddy-config.sh
         ;;
     m | modify)
-        bash ${pro_root_dir}/bin/util/v2ray-caddy-config.sh modify
+        bash ${root_dir}/bin/util/v2ray-caddy-config.sh modify
         ;;
     u | update)
         git reset --hard
         git pull origin master
-        chmod +x ${pro_root_dir}/bin/v2ray.sh
+        chmod +x ${root_dir}/bin/v2ray.sh
 
         docker_update
         docker_restart

@@ -65,7 +65,7 @@ function replaceFile(){
 
 function checkDockerCompose(){
     tips=$1
-    if [[ ! -e ${pro_root_dir}/docker-compose.yml ]] ; then
+    if [[ ! -e ${root_dir}/docker-compose.yml ]] ; then
         echo ${tips}
         exit 2
     fi
@@ -77,7 +77,11 @@ function docker_start(){
     checkDockerCompose "不存在 docker-compose.yml 文件，启动失败"
 
     # start caddy + v2ray
-    docker-compose down
+    count=`docker-compose ps | egrep -i "caddy|v2ray" |wc -l`
+    if [[ ${count} > 2 ]] ; then
+        # has containers
+        docker-compose down
+    fi
     docker-compose up -d
 
     echo "配置防火墙:"
