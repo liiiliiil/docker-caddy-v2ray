@@ -22,4 +22,4 @@ services:
         - ./Caddyfile:/etc/Caddyfile
         - ./caddy/:/root/.caddy/
         - ./log/caddy:/var/log/caddy
-        - ./static:/stati
+        - ./static:/static
