@@ -26,25 +26,24 @@ UUID : 自动生成
 
 #### 2. Caddy + TLS + WS
 域名 : 自行配置
+邮箱 : 一个邮箱账号，Caddy 生成证书时需要
 端口 : 默认 30000(防火墙不允许)
 UUID : 自动生成
 Caddy: Caddy 绑定 80 和 443(不能修改，防火墙允许)
 
 #### 3. CloudFlare(CDN) + Caddy + TLS + WS
 域名 : 自行配置
-端口 : Caddy 绑定 80 和 443（不能修改）
+端口 : 默认 30000(防火墙不允许)
 UUID : 自动生成
-
+Caddy: Caddy 绑定 80 和 443(不能修改，防火墙允许)
+CloudFlare: 邮箱账号和 API Key
 
 #### 4. [VMess 默认 TCP] + [ Caddy + TLS + WS ] 两种方式
-域名 : 自行配置
-端口 : Caddy 绑定 80 和 443（不能修改）
-UUID : 自动生成
+配置 1 加上 配置 2
+
 
 #### 5. [VMess 默认 TCP] + [ CloudFlare(CDN) + Caddy + TLS + WS ] 两种方式
-域名 : 自行配置
-端口 : Caddy 绑定 80 和 443（不能修改）
-UUID : 自动生成
+配置 1 加上 配置 3
 
 # 依赖环境
 Debian 9+ / Ubuntu 16.04 + (测试通过，可用)     

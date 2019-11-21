@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-root_dir="$(cd "$(dirname "$0")";pwd)/.."
-
 cat << EOF
 1. 默认配置 DNS server 为 8.8.8.8 和 8.8.4.4
 EOF
@@ -32,13 +30,13 @@ fi
 echo "git clone 仓库......"
 git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
     && chmod +x docker-caddy-v2ray/bin/v2ray.sh \
-    && ln -s -f ${root_dir}/docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
+    && ln -s -f docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
 
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"
 if [[ ! $(grep "${key_word}" /etc/ssh/sshd_config) ]] ; then
     # update ssh port and set only rsa login only
-    bash ${root_dir}/docker-caddy-v2ray/bin/util/ssh-config.sh
+    bash docker-caddy-v2ray/bin/util/ssh-config.sh
     echo "${key_word}">> /etc/ssh/sshd_config
 fi
 
