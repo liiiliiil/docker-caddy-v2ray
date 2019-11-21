@@ -6,6 +6,9 @@ pro_root_dir=$(cd "$(dirname "$(readlink -f $(which v2ray))")";pwd)/..
 cd ${pro_root_dir}
 
 source ${pro_root_dir}/bin/source/common_function.sh
+if [[ -e ${pro_root_dir}/config.sh ]] ; then
+    source_file ${pro_root_dir}/config.sh
+fi
 
 ####### 参数解析 #######
 cmdname=$(basename $0)

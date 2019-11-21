@@ -147,7 +147,7 @@ replaceFile ${caddy_file}
 
 echo "V2Ray 配置信息:
 
-    VMess TCP  : ${V2RAY_TCP_UUID} @ ${wan_ip} : ${V2RAY_TCP_PORT} ,
+    VMess TCP  : ${V2RAY_TCP_UUID} @ ${wan_ip} : ${V2RAY_TCP_PORT}
 
     TLS + WS   : ${V2RAY_WS_UUID} @ ${DOMAIN}:443 /api:
 "
