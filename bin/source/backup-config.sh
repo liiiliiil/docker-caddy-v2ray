@@ -9,22 +9,31 @@ fi
 echo ""
 echo "备份当前运行的配置信息........"
 
-if [[ -e "${v2ray_server_config_file}" ]] ; then
-    V2RAY_TCP_PORT=`grep -A 15 "V2RAY_TCP_CONFIG_START" ${v2ray_server_config_file} | grep -w "port" | grep -v "V2RAY_TCP_PORT" | tr -d -c "[0-9]"`
-    V2RAY_TCP_UUID=`grep -A 15 "V2RAY_TCP_CONFIG_START" ${v2ray_server_config_file} | grep -w "id" | grep -v "V2RAY_TCP_UUID" |awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
+function getCurrentValue(){
+    PARAM_NAME=$1
+    current_value=$2
 
-    V2RAY_WS_PORT=`grep -A 15 "V2RAY_TLS_WS_CONFIG_START" ${v2ray_server_config_file}| grep -w "port" | grep -v "V2RAY_WS_PORT"| tr -d -c "[0-9]"`
-    V2RAY_WS_UUID=`grep -A 15 "V2RAY_TLS_WS_CONFIG_START" ${v2ray_server_config_file} | grep -w "id" | grep -v "V2RAY_WS_UUID"| awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
+    if [[ ${current_value} ]] ; then
+        eval ${PARAM_NAME}=${current_value}
+    fi
+}
+if [[ -e "${v2ray_server_config_file}" ]] ; then
+    getCurrentValue V2RAY_TCP_PORT `grep -A 15 'V2RAY_TCP_CONFIG_START' ${v2ray_server_config_file} | grep -w 'port' | grep -v 'V2RAY_TCP_PORT' | tr -d -c '[0-9]'`
+    getCurrentValue V2RAY_TCP_UUID `grep -A 15 'V2RAY_TCP_CONFIG_START' ${v2ray_server_config_file} | grep -w 'id' | grep -v 'V2RAY_TCP_UUID' |awk -F ':' '{print $2}'| tr -d -c '[A-Za-z0-9\-]'`
+
+    getCurrentValue V2RAY_WS_PORT `grep -A 15 'V2RAY_TLS_WS_CONFIG_START' ${v2ray_server_config_file}| grep -w 'port' | grep -v 'V2RAY_WS_PORT'| tr -d -c '[0-9]'`
+    getCurrentValue V2RAY_WS_UUID `grep -A 15 'V2RAY_TLS_WS_CONFIG_START' ${v2ray_server_config_file} | grep -w "id" | grep -v "V2RAY_WS_UUID"| awk -F ':' '{print $2}'| tr -d -c "[A-Za-z0-9\-]"`
 fi
 
 if [[ -e "${compose_file}" ]] ; then
-    CF_MAIL=`grep "CLOUDFLARE_EMAIL" ${compose_file} | grep -v "CF_MAIL" | awk -F '=' '{print $2}'`
-    CF_API_KEY=`grep "CLOUDFLARE_API_KEY" ${compose_file}| grep -v "CF_API_KEY" | awk -F '=' '{print $2}'`
+    getCurrentValue CF_MAIL `grep "CLOUDFLARE_EMAIL" ${compose_file} | grep -v "CF_MAIL" | awk -F '=' '{print $2}'`
+    getCurrentValue CF_API_KEY `grep "CLOUDFLARE_API_KEY" ${compose_file}| grep -v "CF_API_KEY" | awk -F '=' '{print $2}'`
 fi
 
 if [[ -e "${caddy_file}" ]] ; then
     DOMAIN=`head -n 1 ${caddy_file} | grep -v "DOMAIN" |awk '{print $1}'`
 fi
+
 
 
 printConfig "当前运行配置文件中读取到的配置信息, 写入到 ${config_sh_file} 文件"
