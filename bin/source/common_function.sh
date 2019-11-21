@@ -9,10 +9,10 @@ function source_file() {
 }
 
 function printConfig(){
-    tip=$1
+    tips=$1
     echo ""
     echo "
-${tip}:
+${tips}:
 
     VMess TCP 端口 和 UUID         : ${V2RAY_TCP_PORT} , ${V2RAY_TCP_UUID}
 
@@ -63,14 +63,18 @@ function replaceFile(){
     cat <<< "$content" > ${file}
 }
 
+function checkDockerCompose(){
+    tips=$1
+    if [[ ! -e ${pro_root_dir}/docker-compose.yml ]] ; then
+        echo ${tips}
+        exit 2
+    fi
+}
 
 function docker_start(){
     echo "启动容器。。。。。"
     # check files
-    if [[ ! -e ${pro_root_dir}/docker-compose.yml ]] ; then
-        echo "不存在 docker-compose.yml 文件，启动失败"
-        return
-    fi
+    checkDockerCompose "不存在 docker-compose.yml 文件，启动失败"
 
     # start caddy + v2ray
     docker-compose down
@@ -90,6 +94,7 @@ function docker_start(){
 
 function docker_stop(){
     echo "关闭容器。。。。。"
+    checkDockerCompose "不存在 docker-compose.yml 文件，关闭失败"
     docker-compose down
 }
 
@@ -101,6 +106,7 @@ function docker_restart(){
 }
 
 function docker_update(){
-    echo "重启容器。。。。。"
+    echo "更新容器。。。。。"
+    checkDockerCompose "不存在 docker-compose.yml 文件，更新失败"
     docker-compose pull caddy
 }
