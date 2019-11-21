@@ -7,7 +7,7 @@ if [[ ! -d "${back_up_dir}" ]] ; then
 fi
 
 echo ""
-echo "当前不存在 ${root_dir}/${config_sh_file} 文件, 根据当前运行的配置文件生成........"
+echo "备份当前运行的配置信息........"
 
 if [[ -e "${v2ray_server_config_file}" ]] ; then
     V2RAY_TCP_PORT=`grep -A 5 -B 5 -m 1 "vmess" ${v2ray_server_config_file} | grep "port" | tr -d -c "[0-9]"`
