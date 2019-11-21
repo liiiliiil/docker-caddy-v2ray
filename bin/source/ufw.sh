@@ -2,8 +2,13 @@
 
 
 function enable_ufw(){
+    echo "开启防火墙"
     ufw --force enable
     ufw default deny
+    ssh_port=`ss -tulpn | grep -i sshd | awk -F ' ' '{print $5}'  | grep "\*"|awk -F ':' '{print $2}'`
+
+    echo "防火墙 开放 ssh 端口: [${ssh_port}] "
+    ufw allow ${ssh_port}/tcp
 }
 
 # allow port and protocol

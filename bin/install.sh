@@ -32,6 +32,9 @@ git clone https://github.com/yuanmomo/docker-caddy-v2ray.git \
     && chmod +x `pwd`/docker-caddy-v2ray/bin/v2ray.sh \
     && ln -s -f `pwd`/docker-caddy-v2ray/bin/v2ray.sh  /usr/local/bin/v2ray \
 
+###### ufw 配置
+bash `pwd`/docker-caddy-v2ray/bin/source/ufw.sh
+
 ###### 更新 ssh 配置
 key_word="#INITIALIZED by MoMo"
 if [[ ! $(grep "${key_word}" /etc/ssh/sshd_config) ]] ; then
