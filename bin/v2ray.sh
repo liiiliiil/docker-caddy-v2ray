@@ -34,6 +34,8 @@ case $OPT in
         bash ${current_dir}/util/v2ray-caddy-config.sh modify
         ;;
     u | update)
+        git reset --hard
+        git pull origin master
         docker_update
         docker_restart
         ;;
