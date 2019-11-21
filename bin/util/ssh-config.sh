@@ -9,6 +9,7 @@ cat << EOF
     1.1 修改 sshd port
     1.2 禁用密码登陆，仅允许免密登陆
     1.3 禁用 DNS 反向解析
+    1.4 GSSAPIAuthentication
 2. ufw 开启 ssh 端口
 EOF
 

@@ -85,10 +85,10 @@ function docker_start(){
     docker-compose up -d
 
     echo "配置防火墙:"
-    if [[ ! "${V2RAY_TCP_PORT}" ]] ; then
+    if [[ "${V2RAY_TCP_PORT}" ]] ; then
         port_allow_ufw ${V2RAY_TCP_PORT} "tcp"
     fi
-    if [[ ! "${V2RAY_WS_PORT}" ]] ; then
+    if [[ "${V2RAY_WS_PORT}" ]] ; then
         port_allow_ufw 80 "tcp"
         port_allow_ufw 443 "tcp"
     fi
