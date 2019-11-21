@@ -2,6 +2,9 @@
 
 pro_root_dir=$(cd "$(dirname "$(readlink -f $(which v2ray))")";pwd)/..
 
+# cd dir
+cd ${pro_root_dir}
+
 source ${pro_root_dir}/bin/source/common_function.sh
 
 ####### 参数解析 #######
