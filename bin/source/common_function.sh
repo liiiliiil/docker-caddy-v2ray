@@ -89,7 +89,6 @@ function docker_start(){
         port_allow_ufw ${V2RAY_TCP_PORT} "tcp"
     fi
     if [[ "${V2RAY_WS_PORT}" ]] ; then
-        port_allow_ufw 80 "tcp"
         port_allow_ufw 443 "tcp"
     fi
     echo "当前防火墙状态:"

@@ -29,13 +29,13 @@ UUID : 自动生成
 邮箱 : 一个邮箱账号，Caddy 生成证书时需要
 端口 : 默认 30000(防火墙不允许)
 UUID : 自动生成
-Caddy: Caddy 绑定 80 和 443(不能修改，防火墙允许)
+Caddy: Caddy 绑定 443 端口(不能修改，防火墙允许)
 
 #### 3. CloudFlare(CDN) + Caddy + TLS + WS
 域名 : 自行配置
 端口 : 默认 30000(防火墙不允许)
 UUID : 自动生成
-Caddy: Caddy 绑定 80 和 443(不能修改，防火墙允许)
+Caddy: Caddy 绑定 443(不能修改，防火墙允许)
 CloudFlare: 邮箱账号和 API Key
 
 #### 4. [VMess 默认 TCP] + [ Caddy + TLS + WS ] 两种方式
