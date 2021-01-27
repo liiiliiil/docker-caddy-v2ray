@@ -190,12 +190,26 @@ function install_docker(){
 #######################################
 function install_docker_compose(){
     if [[ ! $(command -v docker-compose) ]]; then
-        LOG_INFO "Install docker-compose 。。。。。"
+        LOG_INFO "Install docker-compose..."
         curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         chmod +x /usr/local/bin/docker-compose
     else
         LOG_INFO "Docker Compose already installed!!"
     fi
+}
+
+
+#######################################
+# install BBR
+#
+# Globals:
+#
+# Arguments:
+#
+#######################################
+function install_bbr(){
+    LOG_INFO "Install BBR, need reboot after installed!!"
+    curl -s -L https://gist.githubusercontent.com/wbchn/a95b991bf911e3a2e62f7b2ace27c19f/raw/4ac8b11ecefafac7597c1129d3c08acdc39d2486/bbr.sh | bash
 }
 
 #######################################
@@ -567,6 +581,11 @@ for arg in "$@"; do
     echo ""
     echo "Client outbound   : scp -P ${SSH_PORT} root@${EXTERNAL_IP}:${client_outbound_file} ."
     echo "Client config     : scp -P ${SSH_PORT} root@${EXTERNAL_IP}:${client_json_file} ."
+
+
+    install_bbr
+    LOG_INFO "Try to reboot manually!!"
+
     ;;
   esac
 done

@@ -161,3 +161,6 @@ xray run -config=/usr/local/etc/xray/client-config.json
 
 关于代理方式的详细配置，请参考：`deploy/xray/client-outbound-{域名}.json` 文件
 
+# Thanks
+
+[https://gist.githubusercontent.com/wbchn](https://gist.githubusercontent.com/wbchn)
