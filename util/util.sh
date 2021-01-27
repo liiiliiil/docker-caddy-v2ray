@@ -469,10 +469,11 @@ for arg in "$@"; do
     EMAIL="${read_value}"
 
     echo ""
+    export CDN_CHOICE="";
+    export CONNECT_TYPE_CHOICE="";
     LOG_INFO "选择 CDN ?"
     select CDN_CHOICE in "cloudfront" "cloudflare"
     do
-        export CDN_CHOICE;
         LOG_INFO "Use CDN: [${CDN_CHOICE}]"
         case $CDN_CHOICE in
             "cloudfront")
@@ -488,7 +489,6 @@ for arg in "$@"; do
                 LOG_INFO "选择 CDN 和 VPS 的连接方式?"
                 select CONNECT_TYPE_CHOICE in "HTTP" "HTTPS"
                 do
-                    export CONNECT_TYPE_CHOICE;
                     LOG_INFO "Use : [${CONNECT_TYPE_CHOICE}] between [${CDN_CHOICE}] and VPS"
                     case ${CONNECT_TYPE_CHOICE} in
                         "HTTPS")
