@@ -89,4 +89,17 @@
         "path": "${XRAY_VLESS_PATH}"
       }
     }
+    "streamSettings": {
+      "network": "ws",
+      "security": "tls",
+      "tlsSettings": {
+        "serverName": "${DOMAIN}"
+      },
+      "wsSettings": {
+        "path": "${XRAY_VLESS_PATH}"
+        "headers": {
+          "Host": "${DOMAIN}"
+        }
+      }
+    }
   }

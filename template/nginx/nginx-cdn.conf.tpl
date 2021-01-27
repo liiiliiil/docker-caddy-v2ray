@@ -25,5 +25,10 @@ server {
         proxy_set_header X-Real-IP $${my_empty_variable}remote_addr;
         proxy_set_header X-Forwarded-For $${my_empty_variable}proxy_add_x_forwarded_for;
     }
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
 }
 
