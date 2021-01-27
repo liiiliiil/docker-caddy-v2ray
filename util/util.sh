@@ -485,20 +485,18 @@ for arg in "$@"; do
     echo ""
     export CDN_CHOICE="";
     export CONNECT_TYPE_CHOICE="";
+    NGINX_DOMAIN="${DOMAIN}"
     LOG_INFO "选择 CDN ?"
     select CDN_CHOICE in "cloudfront" "cloudflare"
     do
         LOG_INFO "Use CDN: [${CDN_CHOICE}]"
         case $CDN_CHOICE in
             "cloudfront")
-                NGINX_DOMAIN="*.cloudfront.net"
                 ## Cloudfront only support HTTP proxy type between CDN server and VPS
                 ENABLE_PROXY_PROTOCOL="false"
                 break
                 ;;
             "cloudflare")
-                NGINX_DOMAIN="${DOMAIN}"
-
                 echo ""
                 LOG_INFO "选择 CDN 和 VPS 的连接方式?"
                 select CONNECT_TYPE_CHOICE in "HTTP" "HTTPS"
