@@ -200,19 +200,6 @@ function install_docker_compose(){
 
 
 #######################################
-# install BBR
-#
-# Globals:
-#
-# Arguments:
-#
-#######################################
-function install_bbr(){
-    LOG_INFO "Install BBR, need reboot after installed!!"
-    curl -s -L https://gist.githubusercontent.com/wbchn/a95b991bf911e3a2e62f7b2ace27c19f/raw/4ac8b11ecefafac7597c1129d3c08acdc39d2486/bbr.sh | bash
-}
-
-#######################################
 # 检查服务是否已经安装
 #
 # Globals:
@@ -579,10 +566,6 @@ for arg in "$@"; do
     echo ""
     echo "Client outbound   : scp -P ${SSH_PORT} root@${EXTERNAL_IP}:${client_outbound_file} ."
     echo "Client config     : scp -P ${SSH_PORT} root@${EXTERNAL_IP}:${client_json_file} ."
-
-
-    install_bbr
-    LOG_INFO "Try to reboot manually!!"
 
     ;;
   esac
