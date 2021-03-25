@@ -481,6 +481,7 @@ for arg in "$@"; do
             "cloudfront")
                 ## Cloudfront only support HTTP proxy type between CDN server and VPS
                 ENABLE_PROXY_PROTOCOL="false"
+                NGINX_DOMAIN="${NGINX_DOMAIN} *.cloudfront.net"
                 break
                 ;;
             "cloudflare")
