@@ -23,7 +23,7 @@ services:
       - nginx
 
   xray:
-    image: teddysun/xray
+    image: teddysun/xray:1.7.5
     container_name: xray
     hostname: xray
     network_mode: "host"
